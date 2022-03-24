@@ -23,7 +23,7 @@ LRESULT CALLBACK MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
-void InitWindow(HINSTANCE hInstance, int nCmdShow)
+HWND InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// ウィンドウクラスのパラメータを設定(単なる構造体の変数の初期化です。)
 	WNDCLASSEX wc =
@@ -64,4 +64,6 @@ void InitWindow(HINSTANCE hInstance, int nCmdShow)
 	);
 	// 作成したウィンドウを表示状態にする。
 	ShowWindow(hwnd, nCmdShow);
+
+	return hwnd;
 }

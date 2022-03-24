@@ -3,4 +3,4 @@
 
 LRESULT CALLBACK MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-void InitWindow(HINSTANCE hInstance, int nCmdShow);
+HWND InitWindow(HINSTANCE hInstance, int nCmdShow);
