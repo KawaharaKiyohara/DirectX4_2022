@@ -85,7 +85,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		MessageBox(hwnd, L"フェンスの作成に失敗した。\n", L"エラー", MB_OK);
 		return 1;
 	}
-	int fenceValue = 1;
 	// 同期を行うためのイベントハンドラを作成する。
 	HANDLE feceEWventHandle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (feceEWventHandle == nullptr) {
@@ -93,6 +92,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		MessageBox(hwnd, L"同期を行うためのイベントハンドルの作成に失敗した。\n", L"エラー", MB_OK);
 		return 1;
 	}
+	// フェンスに設定する値を記憶する変数を定義する。
+	int fenceValue = 1;
+	
 	// メッセージループを実装する。
 	MSG msg = { 0 };
 	// 終了メッセージが送られてくるまでループを回す。
@@ -142,6 +144,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			fenceValue++;
 		}
 	}
+
+	// step-8 イベントハンドルをクローズ
+	CloseHande( feceEWventHandle );
 
 	return 0;
 }
