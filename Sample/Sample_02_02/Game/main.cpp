@@ -55,9 +55,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	// step-2 スワップチェインを作成。
 
-	// step-3 レンダリングターゲットビューを作成する。
+	// step-3 リソースの情報を書き込むためのディスクリプタを作成する。
 
-	// step-4 バックバッファの番号の番号を表す変数を定義する。
+	// step-4 リソースの情報を作成したディスクリプタに書き込む。
+
+	// step-5 バックバッファの番号の番号を表す変数を定義する。
 
 	// メッセージループを実装する。
 	MSG msg = { 0 };
@@ -75,9 +77,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 										// nullptrを指定している場合、ドライバごとのデフォルトパイプラインステートにリセットされるので、
 										// 動作は不定となる。
 			);
-			// step-5 バックバッファをレンダリングターゲットとして設定する。
+			// step-6 バックバッファをレンダリングターゲットとして設定する。
 			
-			// step-6 バックバッファのカラーをクリア。
+			// step-7 バックバッファのカラーをクリア。
 			
 			/////////////////////////////////////////////////
 			// ここからシーン描画処理開始。
@@ -94,7 +96,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			WaitUntiFinishedGPUProcessing(commandQueue, fence, fenceValue, fenceEventHandle);
 
 
-			// step-7 バックバッファとフロントバッファの入れ替え。
+			// step-8 バックバッファとフロントバッファの入れ替え。
 		}
 	}
 

@@ -102,7 +102,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		return 1;
 	}
 
-	// step-3 レンダリングターゲットビューを作成する。
+	// step-3 リソースの情報を書き込むためのディスクリプタを作成する。
 	// レンダリングターゲットビューのためのディスクリプタヒープを作成する。
 	// RTV用のディスクリプタヒープを確保する。
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
@@ -117,6 +117,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		return 1;
 	}
 
+	// step-4 リソースの情報を作成したディスクリプタに書き込む。
 	// RTV用のディスクリプタのサイズを計算する。
 	int rtvDescriptorSize = d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	// RTV用のディスクリプタの書き込み先ハンドルを取得する。
@@ -125,8 +126,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptorCPUHandles[2];
 	ID3D12Resource* frameBuffer[2];
 	for (int i = 0; i < 2; i++) {
-
-		
 		// スワップチェイン内に作られているフレームバッファを取得。
 		swapChain->GetBuffer(i, IID_PPV_ARGS(&frameBuffer[i]));
 		// ディスクリプタヒープにレンダリングターゲットビューの情報を書き込む。
@@ -140,7 +139,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// 書き込み先を進める。
 		rtvDescritporWriteHandle.ptr += rtvDescriptorSize;
 	}
-	// step-4 バックバッファの番号の番号を表す変数を定義する。
+	// step-5 バックバッファの番号の番号を表す変数を定義する。
 	int backBufferNo = 0;
 
 	// メッセージループを実装する。
@@ -162,7 +161,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 										// nullptrを指定している場合、ドライバごとのデフォルトパイプラインステートにリセットされるので、
 										// 動作は不定となる。
 			);
-			// step-5 バックバッファをレンダリングターゲットとして設定する。
+			// step-6 バックバッファをレンダリングターゲットとして設定する。
 			//　バックバッファがレンダリングとして設定できるようになるまでリソースバリアを入れる。
 			CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(frameBuffer[backBufferNo], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 			commandList->ResourceBarrier(1, &barrier);
@@ -191,7 +190,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			// GPUの処理の終了待ち。
 			WaitUntiFinishedGPUProcessing(commandQueue, fence, fenceValue, fenceEventHandle);
 
-			// step-6 バックバッファとフロントバッファの入れ替え。
+			// step-7 バックバッファとフロントバッファの入れ替え。
 			swapChain->Present(1, 0);
 			// バックバッファの番号を入れ替える。
 			backBufferNo ^= 1;
