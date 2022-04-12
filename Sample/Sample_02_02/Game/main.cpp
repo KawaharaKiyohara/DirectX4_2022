@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include "sub.h"
 #include "d3dx12.h"
-SSH tests
+
 
 
 using namespace Microsoft::WRL;
