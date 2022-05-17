@@ -14,8 +14,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	graphicsEngine.Initialyze(hInstance, nCmdShow);
 	auto d3dDevice = graphicsEngine.GetD3DDevice();
 	
-	// ルートシグネチャの作成。
-
+	// step-1 ルートシグネチャの作成。
 	// ルートシグネチャにアクセスしなくていいシェーダーステージを設定する。
 	D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
@@ -23,16 +22,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
 
-	ComPtr< ID3D12RootSignature> rootSignature;
+	// ルートシグネチャのデータを設定する。
 	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootDesc;
 	rootDesc.Init_1_1(
-		/*numParameters=*/0,
-		/*_pParameters=*/nullptr,
+		0,
+		nullptr,
 		0,
 		nullptr,
 		rootSignatureFlags
 	);
-	// ルートシグネチャを作成する。
+	// 定義されたルートシグネチャを作成するためのメモリを構築する。
 	Microsoft::WRL::ComPtr<ID3DBlob> signature;
 	Microsoft::WRL::ComPtr<ID3DBlob> error;
 	D3DX12SerializeVersionedRootSignature(
@@ -41,6 +40,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		&signature, 
 		&error
 	);
+	// ルートシグネチャを作成する。
+	ComPtr< ID3D12RootSignature> rootSignature;
 	auto hr = d3dDevice->CreateRootSignature(
 		0, 
 		signature->GetBufferPointer(), 
@@ -49,64 +50,70 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	);
 	if (FAILED(hr)) {
 		MessageBox(
-			/*hwnd=*/nullptr,
+			nullptr,
 			L"ルートシグネチャの作成に失敗した。",
 			L"エラー",
 			MB_OK
 		);
 	}
-	// 頂点シェーダーのロード。
+	// step-2 頂点シェーダーのロード。
 	ComPtr<ID3DBlob> vsBlob;
 	ComPtr<ID3DBlob> errorBlob;
 	hr = D3DCompileFromFile(
 		L"Assets/shader/sample.fx", 
-		/*pInclude=*/nullptr, 
+		nullptr, 
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, 
-		/*pEntrypoint=*/"VSMain", 
-		/*pTarget=*/"vs_5_0", 
-		/*Flags1=*/D3DCOMPILE_DEBUG,
-		/*Flags2=*/0, 
+		"VSMain", 
+		"vs_5_0", 
+		D3DCOMPILE_DEBUG,
+		0, 
 		&vsBlob,
 		&errorBlob);
 
 	if (FAILED(hr)) {
 		MessageBox(
-			/*hwnd=*/nullptr,
+			nullptr,
 			L"頂点シェーダーのロードに失敗した。",
 			L"エラー",
 			MB_OK
 		);
 	}
-	// ピクセルシェーダーのロード。
+	// step-2 ピクセルシェーダーのロード。
 	ComPtr<ID3DBlob> psBlob;
 	hr = D3DCompileFromFile(
 		L"Assets/shader/sample.fx",
-		/*pInclude=*/nullptr,
+		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		/*pEntrypoint=*/"PSMain",
-		/*pTarget=*/"ps_5_0",
-		/*Flags1=*/D3DCOMPILE_DEBUG,
-		/*Flags2=*/0,
+		"PSMain",
+		"ps_5_0",
+		0,
+		0,
 		&psBlob,
 		&errorBlob);
 
 	if (FAILED(hr)) {
 		MessageBox(
-			/*hwnd=*/nullptr,
+			nullptr,
 			L"ピクセルシェーダーのロードに失敗した。",
 			L"エラー",
 			MB_OK
 		);
 	}
-	// パイプラインステートの作成。
+	// step-3 パイプラインステートの作成。
+	// まずはパイプラインステートのデータを設定する。
+	// 入力頂点定義
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc = {0};
+	// 入力頂点レイアウト
 	pipelineStateDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
+	// ルートシグネチャ
 	pipelineStateDesc.pRootSignature = rootSignature.Get();
+	// 頂点シェーダー。
 	pipelineStateDesc.VS = CD3DX12_SHADER_BYTECODE(vsBlob.Get());
+	// ピクセルシェーダー。
 	pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(psBlob.Get());
 	// ラスタライザステート。
 	pipelineStateDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
@@ -115,7 +122,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	pipelineStateDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	// デプスステンシルステート。
 	pipelineStateDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(D3D12_DEFAULT);
-	// 
+	// デフォルトのサンプルマスク
 	pipelineStateDesc.SampleMask = UINT_MAX;
 	// プリミティブトポロジー。
 	pipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -128,6 +135,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// MASSの設定。
 	pipelineStateDesc.SampleDesc.Count = 1;
 
+	//設定されたデータをもとにパイプラインステートを作成する。
 	ComPtr< ID3D12PipelineState> pipelineState;
 	hr = d3dDevice->CreateGraphicsPipelineState(
 		&pipelineStateDesc,
@@ -135,13 +143,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	);
 	if (FAILED(hr)) {
 		MessageBox(
-			/*hwnd=*/nullptr,
+			nullptr,
 			L"パイプラインステートの作成に失敗した。",
 			L"エラー",
 			MB_OK
 		);
 	}
-	// 頂点バッファの作成。
+	// step-4 頂点バッファの作成。
 	struct Vertex {
 		float pos[3];	// 頂点座標
 	};
@@ -151,7 +159,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		{  0.0f,  1.0f, 0.0f },
 		{  1.0f, -1.0f, 0.0f },
 	};
+	// 頂点配列のサイズを変数に記憶する。
 	int vertexArraySize = sizeof(vertexArray);
+
+	// 頂点データを記憶するためのメモリをグラフィックメモリ上に確保する。
 	ComPtr< ID3D12Resource> vertexBuffer;
 	auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	auto vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexArraySize);
@@ -162,21 +173,26 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertexBuffer));
-	// データをコピー。
+
+	// グラフィックメモリにデータをコピーする。
 	uint8_t* pData;
 	vertexBuffer->Map(0, nullptr, (void**)&pData);
 	memcpy(pData, vertexArray, vertexArraySize);
 	vertexBuffer->Unmap(0, nullptr);
-	// 頂点バッファビューを作成。
+
+	// 頂点バッファビューを作成。ディスクリプタみたいなもの。
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
 	vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
 	vertexBufferView.SizeInBytes = vertexArraySize;
 	vertexBufferView.StrideInBytes = sizeof(vertexArray[0]);
 
 
-	// インデックスバッファの作成。
+	// step-5 インデックスバッファの作成。
+	// インデックスの配列を定義する。
 	int indexArray[] = { 0, 1, 2 };
+	// インデックスの配列のサイズを計算する。
 	int indexArraySize = sizeof(indexArray);
+	// インデックスデータを記憶するためのメモリをグラフィックメモリ上に確保する。
 	ComPtr< ID3D12Resource> indexBuffer;
 	auto indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexArraySize);
 	d3dDevice->CreateCommittedResource(
@@ -186,7 +202,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuffer));
-	// データをコピー。
+
+	// グラフィックメモリにデータをコピーする。
 	pData;
 	indexBuffer->Map(0, nullptr, (void**)&pData);
 	memcpy(pData, indexArray, indexArraySize);
@@ -205,7 +222,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		if(ProcessWindowsMessage(msg) == false){
 			// シーンの描画処理開始。
 			graphicsEngine.BeginRender();
-
+			// step-6 ドローコールを実行する。
 			auto commandList = graphicsEngine.GetCommandList();
 			// ルートシグネチャを設定。
 			commandList->SetGraphicsRootSignature(rootSignature.Get());
@@ -213,20 +230,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			commandList->SetPipelineState(pipelineState.Get());
 			// 頂点バッファを設定。
 			commandList->IASetVertexBuffers(
-				/*StartSlot=*/0,
-				/*NumViews=*/1,
-				&vertexBufferView);
+				0,
+				1,
+				&vertexBufferView
+			);
 			// インデックスバッファを設定。
-			commandList->IASetIndexBuffer(
-				&indexBufferView);
+			commandList->IASetIndexBuffer(&indexBufferView);
 
 			// ドロー。
 			commandList->DrawIndexedInstanced(
-				/*IndexCountPerInstance=*/3,
-				/*InstanceCount=*/1,
-				/*StartIndexLocation=*/0,
-				/*BaseVertexLocation=*/0,
-				/*StartInstanceLocation=*/0
+				3,	// インデックスの数
+				1,	// インスタンスの数
+				0,
+				0,
+				0
 			);
 			// シーンの描画処理終了。
 			graphicsEngine.EndRender();
