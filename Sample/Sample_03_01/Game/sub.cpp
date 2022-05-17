@@ -9,10 +9,6 @@ LRESULT CALLBACK MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	//送られてきたメッセージで処理を分岐させる。
 	switch (msg)
 	{
-	case WM_LBUTTONDOWN:
-		// マウスの左ボタンが押された。
-		MessageBox(hWnd, L"マウスの左ボタンが押された!", L"通知", MB_OK);
-		break;
 	case WM_DESTROY:
 		//　削除メッセージが来たので終了させる。
 		PostQuitMessage(0);
@@ -113,6 +109,8 @@ HRESULT CreateCommandList(
 		nullptr,
 		IID_PPV_ARGS(&commandList)
 	);
+	// コマンドリストをいったん閉じる。
+	commandList->Close();
 	if (FAILED(hr)) {
 		MessageBox(nullptr, L"コマンドリストの作成に失敗しました。\n", L"エラー", MB_OK);
 	}

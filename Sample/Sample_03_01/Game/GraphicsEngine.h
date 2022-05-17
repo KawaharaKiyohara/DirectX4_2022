@@ -5,26 +5,21 @@
 
 class GraphicsEngine {
 public:
-	/// <summary>
-	/// コンストラクタ。
-	/// </summary>
 	GraphicsEngine();
-	/// <summary>
-	/// デストラクタ。
-	/// </summary>
 	~GraphicsEngine();
-	/// <summary>
-	/// 初期化。
-	/// </summary>
 	HRESULT Initialyze(HINSTANCE hInstance, int nCmdShow);
-	/// <summary>
-	/// 描画開始。
-	/// </summary>
-	void BeginRender();
-	/// <summary>
-	/// 描画終了。
-	/// </summary>
+	// １フレームの描画開始時に呼び出す処理。
+	void BeginRender();	
+	// 1フレームの描画終了時に呼び出す処理。
 	void EndRender();
+	ComPtr<ID3D12Device5> GetD3DDevice()
+	{
+		return m_d3dDevice;
+	}
+	ComPtr< ID3D12GraphicsCommandList4> GetCommandList()
+	{
+		return m_commandList;
+	}
 private:
 	ComPtr<ID3D12Device5> m_d3dDevice;									// D3Dデバイス。
 	ComPtr< ID3D12CommandAllocator > m_commandAllocator;				// コマンドアロケータ。

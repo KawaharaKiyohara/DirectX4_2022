@@ -3,6 +3,11 @@
 #include "sub.h"
 #include "GraphicsEngine.h"
 
+namespace{
+	const int FRAME_BUFFER_W = 1280;
+	const int FRAME_BUFFER_H = 720;
+	const int NUM_FRAME_BUFFER = 2;
+}
 GraphicsEngine::GraphicsEngine()
 {
 }
@@ -64,9 +69,9 @@ HRESULT GraphicsEngine::Initialyze(HINSTANCE hInstance, int nCmdShow)
 
 	// スワップチェインを作成。
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-	swapChainDesc.BufferCount = 2;									// フレームバッファの数。
-	swapChainDesc.Width = 1280;										// フレームバッファの幅。	
-	swapChainDesc.Height = 720;										// フレームバッファの高さ。
+	swapChainDesc.BufferCount = NUM_FRAME_BUFFER;					// フレームバッファの数。
+	swapChainDesc.Width = FRAME_BUFFER_W;							// フレームバッファの幅。	
+	swapChainDesc.Height = FRAME_BUFFER_H;							// フレームバッファの高さ。
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;				// フレームバッファのカラーフォーマット。
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// フレームバッファの利用方法。
 																	// 今回はレンダリングターゲットとして利用する。
@@ -107,7 +112,7 @@ HRESULT GraphicsEngine::Initialyze(HINSTANCE hInstance, int nCmdShow)
 
 	// フレームバッファのためのディスクリプタヒープを作成する。
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-	desc.NumDescriptors = 2;						// ディスクリプタの数。フレームバッファの枚数と同じ数。
+	desc.NumDescriptors = NUM_FRAME_BUFFER;			// ディスクリプタの数。フレームバッファの枚数と同じ数。
 	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;		// レンダリングターゲットビュー用。
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;	// ディスクリプタヒープのオプション。
 													// 今回はオプションなし。
@@ -124,7 +129,7 @@ HRESULT GraphicsEngine::Initialyze(HINSTANCE hInstance, int nCmdShow)
 	// フレームバッファ用のディスクリプタの書き込み先ハンドルを取得する。
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvDescritporWriteHandle = m_frameBufferDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < NUM_FRAME_BUFFER; i++) {
 		// スワップチェイン内に作られているフレームバッファを取得。
 		m_swapChain->GetBuffer(i, IID_PPV_ARGS(&m_frameBuffer[i]));
 		// ディスクリプタヒープにレンダリングターゲットビューの情報を書き込む。
@@ -140,12 +145,15 @@ HRESULT GraphicsEngine::Initialyze(HINSTANCE hInstance, int nCmdShow)
 	}
 	return S_OK;
 }
+#include <comdef.h>
 void GraphicsEngine::BeginRender()
 {
 	// ウィンドウズメッセージがなくなったのでゲームの更新処理を行う。
 	// １フレームの描画開始の処理を実装。
 	// コマンドアロケータをリセット。
+
 	m_commandAllocator->Reset();
+		
 	// コマンドリストもリセット
 	m_commandList->Reset(
 		m_commandAllocator.Get(),	// コマンド作成に使用するアロケータ。
@@ -167,6 +175,10 @@ void GraphicsEngine::BeginRender()
 		FALSE, 
 		nullptr
 	);
+	D3D12_VIEWPORT viewport = { 0, 0, FRAME_BUFFER_W, FRAME_BUFFER_H, 0.0f, 1.0f };
+	m_commandList->RSSetViewports(1, &viewport);
+	D3D12_RECT rect = { 0, 0, FRAME_BUFFER_W, FRAME_BUFFER_H };
+	m_commandList->RSSetScissorRects(1, &rect);
 
 	// バックバッファのカラーをクリア。
 	const float clearColor[] = { 0.5f, 0.5f, 0.5f, 1.0f };
