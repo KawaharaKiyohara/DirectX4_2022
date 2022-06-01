@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>原文.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="chapter-1-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%81%AE%E4%BD%9C%E6%88%90%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%83%AB%E3%83%BC%E3%83%97">Chapter 1 ウィンドウの作成～メッセージループ</h1>
+<p> このチャプターではDirectX12を扱う前に、WindowsSDKを利用して、ゲームの絵を表示するためのウィンドウを表示、制御する方法について見ていきます。</p>
+<h2 id="11-windowssdk%E3%81%A8directx12">1.1 WindowsSDKとDirectX12</h2>
+<p> ウィンドウズ上で動作するゲームを作成するためには、まずウィンドウを作成する必要があります。このウィンドウを作成するAPIを提供しているのはDirectXではなく、WindowsSDKというソフトウェア開発キットになります。WindowsSDKは様々なAPIを含んでおり、その中にCreateWindow()関数、RgisterClassEX()関数、ShowWindos()関数など、ウィンドウアプリを作成するための様々なAPIがあります。実はDirectXもWindowsSDKの中に含まれているAPI群なのです。WindowsSDKを利用することによって、WindowsOS上で動作するグラフィカルなツールやゲームといったアプリを作ることができます。</br>
+ DirectX、正確にはDirectXの中のDirect3Dは3Dグラフィックスを扱うためのAPI群となっています。ゲームではDirect3Dを使って、リアルタイム3DCGの絵を作成して、その絵を作成したウインドウに表示しているわけです。</p>
+<h2 id="12-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%81%AE%E4%BD%9C%E6%88%90">1.2 ウィンドウの作成</h2>
+<p> では、まずはウィンドウの作成に関する処理を見ていきましょう。ウィンドウを作成するステップは下記のようになります。</p>
+<ol>
+<li>ウィンドウクラスの登録</li>
+<li>ウィンドウの作成</li>
+<li>ウィンドウの表示</li>
+</ol>
+<p> では、各ステップ詳細に見ていきましょう。</p>
+<h3 id="121-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AE%E7%99%BB%E9%8C%B2">1.2.1 ウィンドウクラスの登録</h3>
+<p> ウィンドウクラスとは作成するウィンドウの基本データとなります。ウィンドウの作成は後述するCreateWindow()関数を利用するのですが、この時にどのウィンドウクラス情報を使うのか？といった指定をすることになります。</br>
+ ウィンドウの基本データの設定はWNDCLASSEXという構造体を利用します。基本データを設定することができたら、RegisterClassEx()関数を利用して、ウィンドウクラスを登録します。ウィンドウクラスのデータは使用するアイコン、マウスカーソル、ウィンドウの背景色などのデータを設定します。次のコードはウィンドウクラスの登録の疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// ウィンドウクラスのパラメータを設定(単なる構造体の変数の初期化です。)</span>
+WNDCLASSEX wc =
+{
+    <span class="hljs-keyword">sizeof</span>(WNDCLASSEX),         <span class="hljs-comment">// 構造体のサイズ。</span>
+    CS_CLASSDC,                 <span class="hljs-comment">// ウィンドウのスタイル。</span>
+    MsgProc,                    <span class="hljs-comment">// 【重要】メッセージプロシージャ(後述)</span>
+    <span class="hljs-number">0</span>,                          <span class="hljs-comment">// ウインドウクラス構造体の後ろに割り当てる補足バイト数。多くの場合で0でよい。</span>
+    <span class="hljs-number">0</span>,                          <span class="hljs-comment">// ウインドウインスタンスの後ろに割り当てる補足バイト数。多くの場合で0でよい。</span>
+    GetModuleHandle(<span class="hljs-literal">nullptr</span>),   <span class="hljs-comment">// このクラスのためのウインドウプロシージャがあるインスタンスハンドル。</span>
+    <span class="hljs-literal">nullptr</span>,                    <span class="hljs-comment">// アイコンのハンドル。NULLの場合はデフォルト。</span>
+    <span class="hljs-literal">nullptr</span>,                    <span class="hljs-comment">// マウスカーソルのハンドル。NULLの場合はデフォルト。</span>
+    <span class="hljs-literal">nullptr</span>,                    <span class="hljs-comment">// ウィンドウの背景色。NULLの場合はデフォルト。</span>
+    <span class="hljs-literal">nullptr</span>,                    <span class="hljs-comment">// メニュー名。NULLだとメニューなし。</span>
+    <span class="hljs-string">L"MyGame"</span>,                  <span class="hljs-comment">// ウィンドウクラスに付ける名前。</span>
+    <span class="hljs-literal">nullptr</span>                     <span class="hljs-comment">// 16×16の小さいサイズのアイコン。</span>
+};
+
+<span class="hljs-comment">// ウィンドウクラスの登録。</span>
+RegisterClassEx(&amp;wc);
+</div></code></pre>
+<p> さて、このデータの中で特に注目してほしいのが、メッセージプロシージャです。メッセージプロシージャは後ほど詳しく説明しますが、ゲーム以外のWindowsアプリを作る場合、特にGUIプログラミングを行う場合は心臓部分になるものとなります。</p>
+<h3 id="122-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%81%AE%E4%BD%9C%E6%88%90">1.2.2 ウィンドウの作成</h3>
+<p> ウィンドウクラスの登録ができたら、CreateWindow()関数を利用して、ウィンドウを作成します。ウィンドウを作成する際に、どの名前を使って、どのウィンドウクラスを利用するのかを指定します。イメージとしてはウィンドウクラスがtkmファイル、ウィンドウがModelクラスのインスタンスといった感じです。次のコードはウィンドウを作成する疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// ウィンドウの作成</span>
+HWND hwnd = CreateWindow(
+    <span class="hljs-string">L"MyGame"</span>,              <span class="hljs-comment">// 使用するウィンドウクラスの名前。</span>
+    <span class="hljs-string">L"MyGame_00"</span>,           <span class="hljs-comment">// ウィンドウの名前。</span>
+    WS_OVERLAPPEDWINDOW,    <span class="hljs-comment">// ウィンドウスタイル。</span>
+    <span class="hljs-number">0</span>,                      <span class="hljs-comment">// ウィンドウの初期X座標。</span>
+    <span class="hljs-number">0</span>,                      <span class="hljs-comment">// ウィンドウの初期Y座標。</span>
+    <span class="hljs-number">1280</span>,                   <span class="hljs-comment">// ウィンドウの幅。</span>
+    <span class="hljs-number">720</span>,                    <span class="hljs-comment">// ウィンドウの高さ。</span>
+    <span class="hljs-literal">nullptr</span>,                <span class="hljs-comment">// 親ウィンドウのハンドル。</span>
+    <span class="hljs-literal">nullptr</span>,                <span class="hljs-comment">// メニューハンドル。</span>
+    hInstance,              <span class="hljs-comment">// アプリケーションのインスタンス。</span>
+    <span class="hljs-literal">nullptr</span>,                <span class="hljs-comment">// WM_CREATEメッセージのlParamパラメータとして渡される引数。</span>
+);
+</div></code></pre>
+<p> CreateWindow()関数はウィンドウを識別するためのウィンドウハンドルを返してきます。ウィンドウハンドルというのは、ウィンドウを識別するためのハンドルです。マルチウィンドウのアプリケーションの場合、このウィンドウハンドルを利用してウィンドウを識別します。</br></p>
+<h4 id="1221-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AB%E3%81%A8%E3%81%AF">1.2.2.1 ウィンドウハンドルとは？</h4>
+<p> CreateWindow()関数を利用するとHWND型のウインドウハンドルが返ってくることを学びました。ウィンドウハンドルというのはウィンドウを識別するために使用されると記述しましたが、ではどのように識別するのでしょうか？答えはアドレスで識別します。実はHWND型は次のコードのように、ただのHWND__という構造体のポインタ型の別名定義です。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// HWND__という構造体を定義する。</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HWND__</span> {</span>
+    <span class="hljs-keyword">int</span> unused;
+};
+
+<span class="hljs-comment">// HWND__*を別名定義。</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HWND__</span>* <span class="hljs-title">HWND</span>;</span>
+
+</div></code></pre>
+<p> 私は昔C言語を学び始めて数か月ほどでウィンドウハンドルに出会い混乱した覚えがありますが、ようはCreateWindow()関数は作成したウィンドウを表すオブジェクトのアドレスを返してきているだけです。そのアドレスを利用して、ウィンドウを識別するわけです。</p>
+<h3 id="123-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%81%AE%E8%A1%A8%E7%A4%BA">1.2.3 ウィンドウの表示</h3>
+<p> ウィンドウの表示はShowWindw()関数を利用します。ShowWindow()関数に表示したいウィンドウハンドルを渡すことでウィンドウを表示することができます。次のコードはウィンドウを表示する疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 作成したウィンドウを表示状態にする。</span>
+ShowWindow( hwnd, nCmdShow );
+</div></code></pre>
+<h2 id="13-%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%83%AB%E3%83%BC%E3%83%97">1.3 メッセージループ</h2>
+<p> 1.2節でウィンドウを作成して表示する処理について勉強しました。この処理はいわゆる初期化処理と呼ばれるものです。ウィンドウを作成することができたら、ユーザーのアクションに対して様々な反応を返す必要があります。例えば「✕ボタンを押されたらウィンドウを終了させる」や、「マウスの右クリックでポップアップメニューを出す」などです。このユーザーの反応に対するアクションはメッセージループと呼ばれるループ内に記述されます。イメージとしてはゲームループに近いです。実際ゲームでは、このメッセージループの一部がゲームループとなります。メッセージループの中でユーザーからのメッセージが処理されて、後述するメッセージプロシージャという関数が呼び出されることになります。次のコードはメッセージループの疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-2 メッセージループを実装する。</span>
+MSG msg = { <span class="hljs-number">0</span> };
+<span class="hljs-comment">// 終了メッセージが送られてくるまでループを回す。</span>
+<span class="hljs-keyword">while</span> (WM_QUIT != msg.message) {
+    <span class="hljs-comment">// PeekMessage()関数を利用してウィンドウからのメッセージを受け取る。</span>
+    <span class="hljs-keyword">if</span> (PeekMessage(&amp;msg, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, PM_REMOVE))
+    {
+        <span class="hljs-comment">// 仮想キーメッセージを文字メッセージに変換する。</span>
+        <span class="hljs-comment">// ユーザーからの文字入力を取得する必要がある場合は、本関数を呼び出す。</span>
+        TranslateMessage(&amp;msg);
+        <span class="hljs-comment">// メッセージを処理する。</span>
+        <span class="hljs-comment">// この関数の中でウィドウクラスで指定したメッセージプロシージャー関数が呼ばれる。</span>
+        DispatchMessage(&amp;msg);
+    }
+}
+</div></code></pre>
+<p> このメッセージループではPeekMessage()関数、TranslateMessage()関数、DispatchMessage()関数の３つの関数が利用されています。PeekMessage()関数はユーザーが行った操作をメッセージという形で取り出します。例えば、マウスを動かした、右クリックした、左クリックしたといった情報です。取得したメッセージは第一引数のMSG構造体の変数に格納されます。TranslateMessage()関数はユーザーからの文字入力を処理する必要がある場合に呼び出します。仮想キーメッセージとなっているデータを扱いやすい文字データに変換してくれます。最後にDispatchMessage()関数ですが、この関数の中でウィンドウクラスの作成時に指定したメッセージプロシージャ関数が呼ばれます。</p>
+<h2 id="14-%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%83%97%E3%83%AD%E3%82%B7%E3%83%BC%E3%82%B8%E3%83%A3">1.4 メッセージプロシージャ</h2>
+<p> では、最後にメッセージプロシージャについて見ていきます。メッセージプロシージャとはユーザーからの入力を処理する関数です。ユーザーの操作に対しての反応はアプリによって違います。例えば、マウスの右クリックの場合、ポップアップメニューを表示するアプリもあれば、表示しないアプリもあります。このように、ユーザーの操作に対してのアクションはアプリによって異なるため、そのアクションをプログラミングする必要があります。このプログラムの窓口となるのがメッセージプロシージャです。下記のコードはマウスの左クリックのメッセージが来た時に、メッセージボックスを表示するメッセージプロシージャの疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-function">LRESULT CALLBACK <span class="hljs-title">MsgProc</span><span class="hljs-params">(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)</span>
+</span>{
+    <span class="hljs-comment">//送られてきたメッセージで処理を分岐させる。</span>
+    <span class="hljs-keyword">switch</span> (msg)
+    {
+    <span class="hljs-keyword">case</span> WM_LBUTTONDOWN:
+        <span class="hljs-comment">// マウスの左ボタンが押された。</span>
+        MessageBox(hWnd, <span class="hljs-string">L"マウスの左ボタンが押された!"</span>, <span class="hljs-string">L"通知"</span>, MB_OK);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+        <span class="hljs-comment">// それ以外はデフォルトの処理に飛ばす。</span>
+        <span class="hljs-keyword">return</span> DefWindowProc(hWnd, msg, wParam, lParam);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h2 id="15-%E3%83%8F%E3%83%B3%E3%82%BA%E3%82%AA%E3%83%B3%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">1.5 【ハンズオン】ウィンドウを表示してみよう</h2>
+<p> ではSample_01_01を使って、ウィンドウを表示するプログラムを実装していきましょう。Sample_01_01/Game/Game.slnを立ち上げてください。</p>
+<h3 id="step-1-%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%81%AE%E5%88%9D%E6%9C%9F%E5%8C%96">step-1 ウィンドウの初期化</h3>
+<p> まずはウィンドウの初期化です。ウィンドウを初期化する流れはウィンドウクラスの登録、ウィンドウの作成、ウィンドウの表示でした。その流れを思い出しながら、main.cppにリスト1.1のプログラムを入力してください。</br></p>
+<p>[リスト1.1 main.cpp]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-1 ウィンドウの初期化</span>
+<span class="hljs-comment">// ウィンドウクラスのパラメータを設定(単なる構造体の変数の初期化です。)</span>
+WNDCLASSEX wc =
+{
+    <span class="hljs-keyword">sizeof</span>(WNDCLASSEX),		<span class="hljs-comment">// 構造体のサイズ。</span>
+    CS_CLASSDC,				<span class="hljs-comment">// ウィンドウのスタイル。</span>
+                            <span class="hljs-comment">// ここの指定でスクロールバーをつけたりできるが、ゲームではほぼ不要なのでCS_CLASSDCでよい。</span>
+    MsgProc,				<span class="hljs-comment">// メッセージプロシージャ。</span>
+    <span class="hljs-number">0</span>,						<span class="hljs-comment">// 0でいい。</span>
+    <span class="hljs-number">0</span>,						<span class="hljs-comment">// 0でいい。</span>
+    GetModuleHandle(<span class="hljs-literal">nullptr</span>),	<span class="hljs-comment">// このクラスのためのウインドウプロシージャがあるインスタンスハンドル。</span>
+                            <span class="hljs-comment">// 何も気にしなくてよい。</span>
+    <span class="hljs-literal">nullptr</span>,				<span class="hljs-comment">// アイコンのハンドル。今回はnullptrでいい。</span>
+    <span class="hljs-literal">nullptr</span>,				<span class="hljs-comment">// マウスカーソルのハンドル。今回はnullptrでいい。</span>
+    <span class="hljs-literal">nullptr</span>,				<span class="hljs-comment">// ウィンドウの背景色。今回はnullptrでいい。</span>
+    <span class="hljs-literal">nullptr</span>,				<span class="hljs-comment">// メニュー名。今回はnullptrでいい。</span>
+    <span class="hljs-string">L"MyGame"</span>,				<span class="hljs-comment">// ウィンドウクラスに付ける名前。</span>
+    <span class="hljs-literal">nullptr</span>					<span class="hljs-comment">// NULLでいい。</span>
+};
+
+<span class="hljs-comment">// ウィンドウクラスの登録。</span>
+RegisterClassEx(&amp;wc);
+    
+<span class="hljs-comment">// ウィンドウの作成</span>
+HWND hwnd = CreateWindow(
+    <span class="hljs-string">L"MyGame"</span>,				<span class="hljs-comment">// 使用するウィンドウクラスの名前。</span>
+                            <span class="hljs-comment">// 先ほど作成したウィンドウクラスと同じ名前にする。</span>
+    <span class="hljs-string">L"MyGame"</span>,				<span class="hljs-comment">// ウィンドウの名前。ウィンドウクラスの名前と別名でもよい。</span>
+    WS_OVERLAPPEDWINDOW,	<span class="hljs-comment">// ウィンドウスタイル。ゲームでは基本的にWS_OVERLAPPEDWINDOWでいい、</span>
+    <span class="hljs-number">0</span>,						<span class="hljs-comment">// ウィンドウの初期X座標。</span>
+    <span class="hljs-number">0</span>,						<span class="hljs-comment">// ウィンドウの初期Y座標。</span>
+    <span class="hljs-number">1280</span>,					<span class="hljs-comment">// ウィンドウの幅。</span>
+    <span class="hljs-number">720</span>,					<span class="hljs-comment">// ウィンドウの高さ。</span>
+    <span class="hljs-literal">nullptr</span>,    			<span class="hljs-comment">// 親ウィンドウ。今回はnullptrでいい。</span>
+    <span class="hljs-literal">nullptr</span>,				<span class="hljs-comment">// メニュー。今回はnullptrでいい。</span>
+    hInstance,				<span class="hljs-comment">// アプリケーションのインスタンス。</span>
+    <span class="hljs-literal">nullptr</span>                 <span class="hljs-comment">// WM_CREATEメッセージのlParamパラメータとして渡される引数。</span>
+);
+<span class="hljs-comment">// 作成したウィンドウを表示状態にする。</span>
+ShowWindow( hwnd, nCmdShow );
+</div></code></pre>
+<p> さて、入力してもらうとわかると思いますが、多くのパラメータにnullptrが指定されています。このテキストではこれらのパラメータについて多くは説明しませんが、ゲームであればこれらのパラメータは多くの場合でnullptrで十分です。もちろんこれらのパラメーターを利用するゲームもあると思いますが、必要になった時に調べるで十分です(ゲームのアイコンなどは売り物のゲームを作るのであれば変更する必要がありますね)。</p>
+<h3 id="step-2-%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%83%AB%E3%83%BC%E3%83%97%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">step-2 メッセージループを実装する</h3>
+<p> 続いて、メッセージループの実装です。main.cppの該当するコメントの箇所にリスト1.2のプログラムを入力してください。</br>
+[リスト1.2 main.cpp]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-2 メッセージループを実装する。</span>
+MSG msg = { <span class="hljs-number">0</span> };
+<span class="hljs-comment">// 終了メッセージが送られてくるまでループを回す。</span>
+<span class="hljs-keyword">while</span> (WM_QUIT != msg.message) {
+    <span class="hljs-comment">// PeekMessage()関数を利用してウィンドウからのメッセージを受け取る。</span>
+    <span class="hljs-keyword">if</span> (PeekMessage(&amp;msg, <span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, PM_REMOVE))
+    {
+        <span class="hljs-comment">// 仮想キーメッセージを文字メッセージに変換する。</span>
+        <span class="hljs-comment">// ユーザーからの文字入力を取得する必要がある場合は、本関数を呼び出す。</span>
+        TranslateMessage(&amp;msg);
+        <span class="hljs-comment">// メッセージを処理する。</span>
+        <span class="hljs-comment">// この関数の中でウィドウクラスで指定したメッセージプロシージャー関数が呼ばれる。</span>
+        DispatchMessage(&amp;msg);
+    }
+}
+</div></code></pre>
+<h3 id="step-3-%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%83%97%E3%83%AD%E3%82%B7%E3%83%BC%E3%82%B8%E3%83%A3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">step-3 メッセージプロシージャを実装する。</h3>
+<p> 最後にメッセージプロシージャを実装しましょう。main.cppにリスト1.3のプログラムを入力してください。</br></p>
+<p>[リスト1.3 main.cpp]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-3 メッセージプロシージャを実装する。</span>
+<span class="hljs-function">LRESULT CALLBACK <span class="hljs-title">MsgProc</span><span class="hljs-params">(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)</span>
+</span>{
+    <span class="hljs-comment">//送られてきたメッセージで処理を分岐させる。</span>
+    <span class="hljs-keyword">switch</span> (msg)
+    {
+    <span class="hljs-keyword">case</span> WM_LBUTTONDOWN:
+        <span class="hljs-comment">// マウスの左ボタンが押された。</span>
+        MessageBox(hWnd, <span class="hljs-string">L"マウスの左ボタンが押された!"</span>, <span class="hljs-string">L"通知"</span>, MB_OK);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> WM_DESTROY:
+        <span class="hljs-comment">//　削除メッセージが来たので終了させる。</span>
+        PostQuitMessage(<span class="hljs-number">0</span>);
+        <span class="hljs-keyword">break</span>;
+    
+    <span class="hljs-keyword">default</span>:
+        <span class="hljs-comment">// それ以外はデフォルトの処理に飛ばす。</span>
+        <span class="hljs-keyword">return</span> DefWindowProc(hWnd, msg, wParam, lParam);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p> このメッセージプロシージャではWM_LBUTTONDOWN(マウスの左ボタンが押された)とWM_DESTROY(終了メッセージ)メッセージを処理しています。WM_DESTROYメッセージはアプリの✕ボタンを押すなど、ユーザーがアプリを終了させる操作を行ったときに送られてくるメッセージです。今回のプログラムでは、WM_DESTROYメッセージを受け取ると、PostQuitMessage()関数を利用して、WM_QUITメッセージをメッセージキューにポストしています。このメッセージがポストされることで、リスト1.2のメッセージループを抜けることができるようになります。WM_LBUTTONDOWNとWM_DESTROYメッセージ以外はデフォルトのウィンドウメッセージ処理を行ってくれるDefWindowProc()関数を呼び出ししています。入力出来たら実行してみてください。図1.1のような何も表示されていないウィンドウが表示されたら成功です。</p>
+<p>[図1.1]</br>
+<img src="fig/1.1.png" width="400"></br></p>
+<h2 id="16-%E8%A9%95%E4%BE%A1%E3%83%86%E3%82%B9%E3%83%88">1.6 評価テスト</h2>
+<p>下記のURLの評価テストを実施しなさい。</br>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSe2AACj8-UL23mR1Dkgi0tmdEydoqJXt_Gl38IfLZcM71jLEA/viewform?usp=sf_link">評価テスト</a></p>
+<h1 id="chapter-2-directx%E3%81%AE%E5%88%9D%E6%9C%9F%E5%8C%96%E6%AF%8E%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%81%AE%E5%87%A6%E7%90%86">Chapter 2 DirectXの初期化～毎フレームの処理</h1>
+<p> このChapterではDirectXの初期化～ゲームループでの毎フレームの処理を見ていきます。</p>
+<h2 id="21-directx%E3%81%A8%E3%81%AF">2.1 DirectXとは？</h2>
+<p> では、まずそもそもDirectXとはいったい何なのか見ていきましょう。DirectXとはマイクロソフトが開発したゲーム・マルチメディア処理用のAPI群です。これまでは主に3DCGを扱うDirect3Dを勉強してきましたが、それ以外にも次のようなAPIがあります。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DirectX Graphics Infrastructure</td>
+<td>Direct3D 10以降のグラフィックス基盤API。デバイスとの通信など、ローレベルタスクを担当する。</td>
+</tr>
+<tr>
+<td>Direct2D</td>
+<td>Windows 7以降で利用可能な、新しい2次元グラフィックスAPI。バージョン1.0はWindows Vistaにもバックポートされた。</td>
+</tr>
+<tr>
+<td>DirectWrite</td>
+<td>Windows 7以降で利用可能な、新しい高品位テキスト描画API。バージョン1.0はWindows Vistaにもバックポートされた。</td>
+</tr>
+<tr>
+<td>XAudio2</td>
+<td>クロスプラットフォーム (WindowsとXbox) で共通に使える低レベルオーディオAPI</td>
+</tr>
+<tr>
+<td>X3DAudio</td>
+<td>WindowsとXboxの両方のプラットフォーム上で利用可能な、空間音響用ヘルパーライブラリ</td>
+</tr>
+<tr>
+<td>DirectAnimation</td>
+<td>2D Webアニメーション用</td>
+</tr>
+<tr>
+<td>DirectX Media Objects</td>
+<td>エンコーダー、デコーダー、エフェクトといったストリーミングオブジェクトのサポート。</td>
+</tr>
+<tr>
+<td>Direct Storage</td>
+<td>ゲームローディング（読み込み）の高速化。</td>
+</tr>
+</tbody>
+</table>
+<p> DirectXの進化の歴史の大半はDirect3Dになるのですが、実はこのように様々なAPIが存在しています。このテキストでは主にDirect3Dを扱いますが、グラフィックカードなどのデバイスと通信を行うために、DirectX Graphics Infrastructure(DXGI)なども利用します。このテキストでは扱いませんが、本校のゲームエンジンではサウンドの再生にXAudio2とX3DAudioを利用しています。</p>
+<h2 id="22-d3d%E3%83%87%E3%83%90%E3%82%A4%E3%82%B9%E3%81%AE%E5%88%9D%E6%9C%9F%E5%8C%96">2.2 D3Dデバイスの初期化～</h2>
+<p> では、まずはD3Dデバイスの初期化について見ていきましょう。D3DデバイスとはCPU側からGPUにアクセスするためのインターフェースです。D3Dデバイスを作成することによって、C++側からGPUに対して様々な命令を行うことができるようになります。D3DデバイスはDirect3DのD3D12CreateDevice()関数を利用することで作成することができます。リスト2.1はD3Dデバイスを作成するサンプルコードです。</br></p>
+<p>[リスト2.1]</p>
+<pre class="hljs"><code><div>ID3D12Device5* d3dDevice = <span class="hljs-literal">nullptr</span>;
+D3D12CreateDevice(
+    <span class="hljs-literal">nullptr</span>,                    <span class="hljs-comment">// 使用するGPUのアダプタ。</span>
+    D3D_FEATURE_LEVEL_12_1,     <span class="hljs-comment">// DirectX12のバージョン。</span>
+    IID_PPV_ARGS(&amp;d3dDevice)    <span class="hljs-comment">// D3Dデバイスにアクセスするインターフェース。</span>
+);
+</div></code></pre>
+<p> D3Dデバイスへの通信はID3D12Device*に格納されたD3Dデバイスオブジェクトのアドレスに参照して行います。ID3D12Deviceインターフェースは複数のバージョンがあり、使用する機能に応じて適切なインターフェースを使用する必要があります。疑似コードではID3D12Device5を利用しています。</br>
+ D3D12CreateDevice()関数の第一引数は使用するGPUのアダプタとなっています。nullptrが指定されると、デフォルトのGPUが利用されます。複数のGPUが載っているパソコン、例えばゲーミングノートパソコンであれば、Intel製のGPUとNVIDIA製のGPUが乗っている場合があったりします。そのような時に、nullptrを指定しているIntel製のGPUが使われるか、NVIDIA製のGPUが使われるかは、パソコンの設定次第となります(図2.1)。</p>
+<p>[図2.1 優先使用されるGPUの設定]</br>
+<img src="fig/2.1.png" width="400"></br></p>
+<p> このような設定の影響を受けずに、使用するGPUを指定したい場合、例えばNVIDIAのGPUが載っている場合はそれを優先したいなどには、DXGIを使って、パソコンに載っているGPUアダプタを列挙して、使いたいアダプタを指定するということもできます。リスト2.2のコードは、NVIDIA製のアダプタを最優先で使用している疑似コードです。興味がある方は参照してみてください。</br>
+[リスト2.2]</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">enum</span> GPU_Vender {
+    GPU_VenderNvidia,   <span class="hljs-comment">//NVIDIA</span>
+    GPU_VenderAMD,      <span class="hljs-comment">//AMD</span>
+    GPU_VenderIntel,    <span class="hljs-comment">//Intel</span>
+    Num_GPUVender,
+};
+
+ComPtr&lt;IDXGIAdapter&gt; adapterTmp = <span class="hljs-literal">nullptr</span>;                         
+<span class="hljs-comment">// 各ベンダーのアダプターを記憶する配列。</span>
+ComPtr&lt;IDXGIAdapter&gt; adapterVender[Num_GPUVender] = { <span class="hljs-literal">nullptr</span> };   
+<span class="hljs-comment">// 最終的に使用するアダプタ。</span>
+ComPtr&lt;IDXGIAdapter&gt; useAdapter = <span class="hljs-literal">nullptr</span>;                         
+SIZE_T videoMemorySize = <span class="hljs-number">0</span>;
+<span class="hljs-comment">// IDXGIFactory::EnumAdapters()関数を利用して、接続されているGPUアダプタを列挙していく。</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; dxgiFactory-&gt;EnumAdapters(i, &amp;adapterTmp) != DXGI_ERROR_NOT_FOUND; i++) {
+    <span class="hljs-comment">// IDXGIAdapter::GetDesc()関数を利用してアダプタ情報を取得。</span>
+    DXGI_ADAPTER_DESC desc;
+    adapterTmp-&gt;GetDesc(&amp;desc);
+    <span class="hljs-keyword">if</span> (wcsstr(desc.Description, <span class="hljs-string">L"NVIDIA"</span>) != <span class="hljs-literal">nullptr</span>) {
+        <span class="hljs-comment">// NVIDIA製</span>
+        adapterVender[GPU_VenderNvidia] = adapterTmp;
+    }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (wcsstr(desc.Description, <span class="hljs-string">L"AMD"</span>) != <span class="hljs-literal">nullptr</span>) {
+        <span class="hljs-comment">// AMD製</span>
+        adapterVender[GPU_VenderAMD] = adapterTmp;
+    }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (wcsstr(desc.Description, <span class="hljs-string">L"Intel"</span>) != <span class="hljs-literal">nullptr</span>) {
+        <span class="hljs-comment">// Intel製</span>
+        adapterVender[GPU_VenderIntel] = adapterTmp;
+    }
+}
+<span class="hljs-comment">// 使用するアダプターを決める。</span>
+<span class="hljs-keyword">if</span> (adapterVender[GPU_VenderNvidia] != <span class="hljs-literal">nullptr</span>) {
+    <span class="hljs-comment">// NVIDIA製が最優先</span>
+    useAdapter = adapterVender[GPU_VenderNvidia];
+}
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (adapterVender[GPU_VenderAMD] != <span class="hljs-literal">nullptr</span>) {
+    <span class="hljs-comment">// 次はAMDが優先。</span>
+    useAdapter = adapterVender[GPU_VenderAMD];
+}
+<span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// NVIDIAとAMDのGPUがなければビデオメモリが一番多いやつを使う。</span>
+    useAdapter = adapterMaxVideoMemory;
+}
+
+<span class="hljs-comment">// D3Dデバイスを作成。</span>
+D3D12CreateDevice(
+    useAdapter,
+    D3D_FEATURE_LEVEL_12_1,
+    IID_PPV_ARGS(&amp;m_d3dDevice)
+);
+</div></code></pre>
+<h2 id="23-%E6%8F%8F%E7%94%BB%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%AE%E7%94%9F%E6%88%90%E3%81%A8%E6%8F%8F%E7%94%BB%E3%82%AD%E3%83%83%E3%82%AF">2.3 描画コマンドの生成と描画キック</h2>
+<p> 続いて、描画コマンドの生成と描画キックについて見ていきます。「コマンド」というのは「命令」という意味で、描画コマンドというのは絵を描くための命令という意味になります。描画キックというのはその命令をGPUに送るということです。リアルタイムCGの絵を表示するための、CPUの仕事というのは、毎フレーム描画コマンドを作成して、その命令をキックしてGPUに送るということになります。リスト2.3のコードは描画コマンドを作成してキックしいる疑似コードです。</p>
+<p>[リスト2.3]</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> commands[<span class="hljs-number">100</span>];
+commands[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;       <span class="hljs-comment">// 10は頂点バッファをセット。</span>
+commands[<span class="hljs-number">1</span>] = <span class="hljs-number">0x1234</span>;   <span class="hljs-comment">// 頂点バッファのアドレス。</span>
+commands[<span class="hljs-number">2</span>] = <span class="hljs-number">20</span>;       <span class="hljs-comment">// 20はインデックスバッファをセット。</span>
+commands[<span class="hljs-number">3</span>] = <span class="hljs-number">0x2345</span>;   <span class="hljs-comment">// インデックスバッファのアドレス。</span>
+commands[<span class="hljs-number">4</span>] = <span class="hljs-number">100</span>;      <span class="hljs-comment">// 100は描画キック</span>
+commands[<span class="hljs-number">5</span>] = <span class="hljs-number">-1</span>;       <span class="hljs-comment">// コマンドの終わりを表す番兵</span>
+
+<span class="hljs-comment">// GPUに命令を送る。</span>
+Kick( commands );
+</div></code></pre>
+<p> このコードはあくまで疑似コードですので、これで実際にGPUに命令が送られているわけではないので注意してください。しかし、このコードはC++側で行っている描画コマンドの作成の処理を非常にシンプルに表しているものです。これから描画コマンドを生成するための複雑なプログラムを見ていきますが、本質的には疑似コードのような処理をしていると考えてください。</br>
+ DirectX12で描画コマンドの生成とキックを行うためには、次の３つのコンポーネントを生成して利用する必要があります。</p>
+<ol>
+<li>コマンドアロケータ</li>
+<li>コマンドリスト</li>
+<li>コマンドキュー
+ では、これらの３つについて詳細に見ていきましょう。</li>
+</ol>
+<h3 id="231-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%A2%E3%83%AD%E3%82%B1%E3%83%BC%E3%82%BF">2.3.1 コマンドアロケータ</h3>
+<p> コマンドアロケーターはコマンドを記憶するためのメモリ領域を確保するために使われるものです。コマンドアロケータによって確保されたメモリ上にコマンドが記憶されていきます。リスト2.4のコードはコマンドアロケーターの疑似コードです。</br>
+[リスト2.4]</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">int</span> currentCommandPos = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">char</span> commandAllocator[<span class="hljs-number">10</span>*<span class="hljs-number">1024</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">AllocCommand</span><span class="hljs-params">( <span class="hljs-keyword">int</span> size )</span>
+</span>{
+    <span class="hljs-comment">// 書き込み可能なアドレスを取得。</span>
+    <span class="hljs-keyword">void</span>* mem = &amp;commandAllocator[currentCommandPos];
+    <span class="hljs-comment">// 確保されたサイズ分だけ書き込み可能な位置を動かす。</span>
+    currentCommandPos += size;
+    <span class="hljs-comment">// 書き込み可能アドレスを返す。</span>
+    <span class="hljs-keyword">return</span> mem;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// 描画コマンドの先頭アドレス。</span>
+    <span class="hljs-keyword">void</span>* commandTopAddres = commandAllocator;
+    <span class="hljs-comment">// コマンドを書き込む</span>
+    <span class="hljs-comment">// 頂点バッファを設定する。</span>
+    <span class="hljs-comment">// 頂点バッファの設定は8バイト使う。</span>
+    <span class="hljs-keyword">int</span>* newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">8</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;     <span class="hljs-comment">// 10が頂点バッファを設定する命令(4バイト)</span>
+    newCommand[<span class="hljs-number">1</span>] = <span class="hljs-number">0x1234</span>; <span class="hljs-comment">// 頂点バッファのアドレス(4バイト)</span>
+
+    <span class="hljs-comment">// インデックスバッファを設定する。</span>
+    <span class="hljs-comment">// インデックスバッファの設定は8バイト使う。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">8</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">20</span>;     <span class="hljs-comment">// 20がインデックスバッファを設定する命令(4バイト)</span>
+    newCommand[<span class="hljs-number">1</span>] = <span class="hljs-number">0x2345</span>; <span class="hljs-comment">// インデックスバッファのアドレス(4バイト)</span>
+
+    <span class="hljs-comment">// ドローコール</span>
+    <span class="hljs-comment">// ドローコールの設定は4バイト使う。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">4</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>;    <span class="hljs-comment">// 100がドローコールの命令(4バイト)</span>
+
+    <span class="hljs-comment">// 最後にコマンドの終了の番兵を設定する。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">4</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">-1</span>;     <span class="hljs-comment">// -1が番兵</span>
+
+    <span class="hljs-comment">// 生成されたコマンドをキック</span>
+    Kick(commandTopAddres);
+}
+</div></code></pre>
+<p> リスト2.3のコードと比べると複雑になってきましたが、本質的には2.3のコードと同じです。コマンドアロケータを使って、コマンドの書き込み先のメモリを確保して、そこにコマンドを書き込んでいっているだけです。</br></p>
+<h3 id="232-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%AA%E3%82%B9%E3%83%88">2.3.2 コマンドリスト</h3>
+<p> 続いてコマンドリストです。コマンドリストは作成されたコマンドのアドレスを記憶していくリストです。リスト2.4のコードはコマンドリストを利用している疑似コードです。</br>
+[リスト2.4]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// これがコマンドリスト。コマンドのアドレスを記憶していく。</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">void</span>*&gt; commandList;
+
+<span class="hljs-keyword">int</span> currentCommandPos = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">char</span> commandAllocator[<span class="hljs-number">10</span>*<span class="hljs-number">1024</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">AllocCommand</span><span class="hljs-params">( <span class="hljs-keyword">int</span> size )</span>
+</span>{
+    <span class="hljs-comment">// 書き込み可能なアドレスを取得。</span>
+    <span class="hljs-keyword">void</span>* mem = &amp;commandAllocator[currentCommandPos];
+    <span class="hljs-comment">// 確保されたサイズ分だけ書き込み可能な位置を動かす。</span>
+    currentCommandPos += size;
+    <span class="hljs-comment">// 書き込み可能アドレスを返す。</span>
+    <span class="hljs-keyword">return</span> mem;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// 描画コマンドの先頭アドレス。</span>
+    <span class="hljs-keyword">void</span>* commandTopAddres = commandAllocator;
+    <span class="hljs-comment">// コマンドを書き込む</span>
+    <span class="hljs-comment">// 頂点バッファを設定する。</span>
+    <span class="hljs-keyword">int</span>* newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">8</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;     <span class="hljs-comment">// 10が頂点バッファを設定する命令(4バイト)</span>
+    newCommand[<span class="hljs-number">1</span>] = <span class="hljs-number">0x1234</span>; <span class="hljs-comment">// 頂点バッファのアドレス(4バイト)</span>
+
+    <span class="hljs-comment">// 【注目】コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+
+    <span class="hljs-comment">// インデックスバッファを設定する。</span>
+    <span class="hljs-comment">// インデックスバッファの設定は8バイト使う。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">8</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">20</span>;     <span class="hljs-comment">// 20がインデックスバッファを設定する命令(4バイト)</span>
+    newCommand[<span class="hljs-number">1</span>] = <span class="hljs-number">0x2345</span>; <span class="hljs-comment">// インデックスバッファのアドレス(4バイト)</span>
+
+    <span class="hljs-comment">// 【注目】コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+
+    <span class="hljs-comment">// ドローコール</span>
+    <span class="hljs-comment">// ドローコールの設定は4バイト使う。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">4</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>;    <span class="hljs-comment">// 100がドローコールの命令(4バイト)</span>
+
+    <span class="hljs-comment">// 【注目】コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+    
+    <span class="hljs-comment">// 最後にコマンドの終了の番兵を設定する。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">4</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">-1</span>;     <span class="hljs-comment">// -1が番兵</span>
+
+    <span class="hljs-comment">// 【注目】コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+
+    <span class="hljs-comment">// 生成されたコマンドをキック</span>
+    Kick(commandList);
+}
+</div></code></pre>
+<h3 id="233-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%AD%E3%83%A5%E3%83%BC">2.3.3 コマンドキュー</h3>
+<p> 最後はコマンドキューです。コマンドキューはFIFO(先入れ先だし)のデータ構造になっており、複数のコマンドリストをリストをキューに詰むことができます。DirectX12では最終的に、このコマンドキューにコマンドリストを積んで、GPUにコマンドを送ります。リスト2.5のコードはコマンドキューの疑似コードです。</br></p>
+<p>[リスト2.5]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// これがコマンドキュー。</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">queue</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">void</span>*&gt;&gt; commandQueue;
+<span class="hljs-comment">// コマンドリスト。</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">list</span>&lt;<span class="hljs-keyword">void</span>*&gt; commandList;
+<span class="hljs-comment">// コマンドアロケータ。</span>
+<span class="hljs-keyword">int</span> currentCommandPos = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">char</span> commandAllocator[<span class="hljs-number">10</span>*<span class="hljs-number">1024</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>* <span class="hljs-title">AllocCommand</span><span class="hljs-params">( <span class="hljs-keyword">int</span> size )</span>
+</span>{
+    <span class="hljs-comment">// 書き込み可能なアドレスを取得。</span>
+    <span class="hljs-keyword">void</span>* mem = &amp;commandAllocator[currentCommandPos];
+    <span class="hljs-comment">// 確保されたサイズ分だけ書き込み可能な位置を動かす。</span>
+    currentCommandPos += size;
+    <span class="hljs-comment">// 書き込み可能アドレスを返す。</span>
+    <span class="hljs-keyword">return</span> mem;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// 描画コマンドの先頭アドレス。</span>
+    <span class="hljs-keyword">void</span>* commandTopAddres = commandAllocator;
+    <span class="hljs-comment">// コマンドを書き込む</span>
+    <span class="hljs-comment">// 頂点バッファを設定する。</span>
+    <span class="hljs-keyword">int</span>* newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">8</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;     <span class="hljs-comment">// 10が頂点バッファを設定する命令(4バイト)</span>
+    newCommand[<span class="hljs-number">1</span>] = <span class="hljs-number">0x1234</span>; <span class="hljs-comment">// 頂点バッファのアドレス(4バイト)</span>
+
+    <span class="hljs-comment">// コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+
+    <span class="hljs-comment">// インデックスバッファを設定する。</span>
+    <span class="hljs-comment">// インデックスバッファの設定は8バイト使う。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">8</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">20</span>;     <span class="hljs-comment">// 20がインデックスバッファを設定する命令(4バイト)</span>
+    newCommand[<span class="hljs-number">1</span>] = <span class="hljs-number">0x2345</span>; <span class="hljs-comment">// インデックスバッファのアドレス(4バイト)</span>
+    <span class="hljs-comment">// コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+
+    <span class="hljs-comment">// ドローコール</span>
+    <span class="hljs-comment">// ドローコールの設定は4バイト使う。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">4</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>;    <span class="hljs-comment">// 100がドローコールの命令(4バイト)</span>
+    <span class="hljs-comment">// コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+    
+    <span class="hljs-comment">// 最後にコマンドの終了の番兵を設定する。</span>
+    newCommand = (<span class="hljs-keyword">int</span>*)AllocCommand( <span class="hljs-number">4</span> );
+    newCommand[<span class="hljs-number">0</span>] = <span class="hljs-number">-1</span>;     <span class="hljs-comment">// -1が番兵</span>
+    <span class="hljs-comment">// コマンドリストに追加</span>
+    commandList.push_back(newCommand);
+
+    <span class="hljs-comment">// 【注目】コマンドリストをキューに入れる。</span>
+    commandQueue.push( commandList );
+    
+    <span class="hljs-comment">// 生成されたコマンドをキック</span>
+    Kick(commandQueue);
+}
+</div></code></pre>
+<p> ここまでの一連の流れがDirectX12に置けるコマンド生成です。コマンドアロケータでコマンドを記憶する領域を確保して、そこにコマンドを書き込む。そのコマンドアドレスをコマンドリストに登録して、最終的にはコマンドリストをコマンドキューに詰んでGPUにコマンドを発行します。リスト2.6は実際にDirectX12を利用して際のコマンドアロケータ、コマンドリスト、コマンドキューを初期化しているサンプルコードです。</br></p>
+<p>[リスト2.6]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// D3Dデバイスを介してコマンドアロケータの作成する。</span>
+ID3D12CommandAllocator* commandAllocator = <span class="hljs-literal">nullptr</span>;
+d3dDevice-&gt;CreateCommandAllocator(
+    D3D12_COMMAND_LIST_TYPE_DIRECT,
+    IID_PPV_ARGS(&amp;commandAllocator));
+
+<span class="hljs-comment">// D3Dデバイスを介してコマンドリストを作成する。</span>
+ID3D12GraphicsCommandList4* commandList = <span class="hljs-literal">nullptr</span>;
+d3dDevice-&gt;CreateCommandList(
+    <span class="hljs-number">0</span>, 
+    D3D12_COMMAND_LIST_TYPE_DIRECT,
+    commandAllocator),
+    <span class="hljs-literal">nullptr</span>, 
+    IID_PPV_ARGS(&amp;commandList) 
+);
+
+<span class="hljs-comment">// D3Dデバイスを介してコマンドキューを作成する。</span>
+D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+ID3D12CommandQueue commandQueue = <span class="hljs-literal">nullptr</span>;
+d3dDevice-&gt;CreateCommandQueue( 
+    &amp;queueDesc, 
+    IID_PPV_ARGS(&amp;commandQueue) 
+);
+<span class="hljs-comment">// ゲームループ</span>
+<span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>){
+    <span class="hljs-comment">// コマンドアロケータとコマンドリストをリセットする。</span>
+    commandAllocator-&gt;Reset();
+    commandList-&gt;Reset(
+        commandAllocator,   <span class="hljs-comment">// 使用するコマンドアロケータを指定する。</span>
+        <span class="hljs-literal">nullptr</span>
+    );
+
+    <span class="hljs-comment">// ここから描画コマンドをコマンドリストに詰んでいく。</span>
+    <span class="hljs-comment">// キャラの頂点バッファを設定</span>
+    commandList-&gt;IASetVertexBuffers( <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, charaVertexBuffer );
+    <span class="hljs-comment">// キャラのインデックスバッファを設定</span>
+    commandList-&gt;IASetIndexBuffer( charaIndexBuffer );
+    <span class="hljs-comment">// キャラをドローする。</span>
+    commandList-&gt;DrawIndexedInstanced( charaIndexCount, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> );
+
+    <span class="hljs-comment">// 背景の頂点バッファを設定</span>
+    commandList-&gt;IASetVertexBuffers( <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, bgVertexBuffer );
+    <span class="hljs-comment">// 背景のインデックスバッファを設定</span>
+    commandList-&gt;IASetIndexBuffer( bgIndexBuffer );
+    <span class="hljs-comment">// 背景をドローする。</span>
+    commandList-&gt;DrawIndexedInstanced( bgIndexCount, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> );
+
+    <span class="hljs-comment">// コマンドリストをクローズする(番兵)。</span>
+    commandList-&gt;Close();
+
+    <span class="hljs-comment">// コマンドキューに詰むためにコマンドリストの配列を定義する。</span>
+    ID3D12CommandList* commandListArray[] = { 
+        commandList
+    };
+
+    <span class="hljs-comment">// コマンドキューにコマンドリストを詰む。</span>
+    commandQueue-&gt;ExecuteCommandLists(
+        <span class="hljs-number">1</span>,                  <span class="hljs-comment">// コマンドリストの数。</span>
+        commandListArray    <span class="hljs-comment">// コマンドリストの配列。</span>
+    );
+}
+</div></code></pre>
+<h2 id="24-cpu%E3%81%A8gpu%E3%81%AE%E5%90%8C%E6%9C%9F">2.4 CPUとGPUの同期</h2>
+<p> 最後にCPUとGPUの同期について見ていきます。CPUとGPUは独立したプロセッサとして存在しています。また2.3節で見たように、GPUはCPUからドローコマンドが送られることで動き出します。さて、この時CPUはどのようにしてGPUの処理が終わったことを知ればいいのでしょうか。CPUとGPUは独立しているため、並列に動作していきます。ID3D12CommandQueue::ExecuteCommandLists()関数を利用することで、CPUからGPUに命令を送ることができますが、この関数はGPUに命令を送るだけで、GPUの処理が終了するのを待ってくれたりはしません。ID3D12CommandQueue::ExecuteCommandLists()関数は描画コマンドをGPUに送った後、即座に処理を復帰します。つまり、このままではCPUはGPUの処理の終了を待たずに次のフレームの処理に突っ走ってしまうことになります。そこで、DirectX12ではCPU側でGPUの処理を待つための同期処理を実装する必要があります。この同期処理はフェンスオブジェクトとイベントハンドラを利用することで実装できます。リスト2.7はフェンスオブジェクトとイベントハンドラを初期化しているサンプルコードです。</br>
+[リスト2.7]</p>
+<pre class="hljs"><code><div>    ・
+    ・
+    ・
+    D3Dデバイスやコマンドアロケーターなどの初期化処理は省略
+    ・
+    ・
+    ・
+<span class="hljs-comment">// GPUとCPUの同期をとるためのオブジェクトを作成。</span>
+ComPtr&lt;ID3D12Fence&gt; fence;
+d3dDevice-&gt;CreateFence(
+    <span class="hljs-number">0</span>,                      <span class="hljs-comment">// 初期値</span>
+    D3D12_FENCE_FLAG_NONE,  <span class="hljs-comment">// フェンスの動作に関するオプション。今回はオプションなし。</span>
+    IID_PPV_ARGS(&amp;fence)
+);
+
+<span class="hljs-comment">// 同期を行うためのイベントハンドラを作成する。</span>
+HANDLE feceEventHandle = CreateEvent(<span class="hljs-literal">nullptr</span>, FALSE, FALSE, <span class="hljs-literal">nullptr</span>);
+
+</div></code></pre>
+<p> 
+ID3D12Device5::CreateFence()関数を利用して、フェンスオブジェクトを作成しています。また、CreateEvent()関数を利用してイベントハンドラを作成しています。イベントハンドラとは任意のイベントを監視するためのオブジェクトです。では、続いて、作成したフェンスオブジェクトとイベントハンドラを利用して、CPUとGPUの同期を取るサンプルプログラムを見ていきましょう。リスト2.8を見てください。</br>
+[リスト2.8]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// フェンスバリュー</span>
+<span class="hljs-keyword">int</span> fenceValue = <span class="hljs-number">1</span>;
+<span class="hljs-comment">// ゲームループ。</span>
+<span class="hljs-keyword">while</span>( <span class="hljs-literal">true</span> ){
+    ・
+    ・
+    ・
+    コマンド生成～実行のコードは省略
+    ・
+    ・
+    ・
+    <span class="hljs-comment">// フェンスにフェンスバリューを設定する。</span>
+	commandQueue-&gt;Signal(fence.Get(), fenceValue);
+    <span class="hljs-comment">// フェンスの値がfenceValueになったときにイベントが起きるように設定。</span>
+	fence-&gt;SetEventOnCompletion(fenceValue, feceEventHandle);
+    <span class="hljs-comment">// イベントが発生するまで待つ。</span>
+	WaitForSingleObject(feceEventHandle, INFINITE);
+    <span class="hljs-comment">// フェンスバリューをインクリメント。</span>
+	fenceValue++;
+}
+</div></code></pre>
+<p>ID3D12CommandQueue::Signal()関数の第一引数にフェンスオブジェクト、第二引数にフェンスオブジェクトに設定する値を指定しています。これは、コマンドキューの処理がすべて終了したあとで、フェンスオブジェクトのフェンスバリューを第二引数で指定した値に設定しなさいという命令となります。続いて、ID3D12Fence::SetEventOnCompletion()関数を利用して、フェンスオブジェクトのフェンスバリューが指定した値になったらイベントが発生するようにしています。続いて、WaitForSingleObject()関数を利用して、イベントが発生するまでCPUを待たせる処理を実行しています。つまり、この一連の処理で「フェンスオブジェクトのフェンスバリューの値が、指定した値になるまで待機する」という処理が実現できてることになります。WaitForSingleObject()関数を抜けるとfenceValueの値をインクリメントしています。WaitForSingleObject()関数を抜けたということは、フェンスオブジェクトのフェンスバリューはfenceValueに記憶されている値に変更されているわけなので、次のフレームの同期を取るためには値を変更する必要があります。</p>
+<h2 id="25-%E3%83%8F%E3%83%B3%E3%82%BA%E3%82%AA%E3%83%B3d3d%E3%83%87%E3%83%90%E3%82%A4%E3%82%B9%E3%81%AE%E4%BD%9C%E6%88%90%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%AE%E3%82%AD%E3%83%83%E3%82%AFcpu%E3%81%A8gpu%E3%81%AE%E5%90%8C%E6%9C%9F%E5%87%A6%E7%90%86%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">2.5 【ハンズオン】D3Dデバイスの作成、コマンドのキック、CPUとGPUの同期処理を実装する。</h2>
+<p> では、実際にD3Dデバイスの作成からコマンドの実行、同期処理の一連の流れを実装していきましょう。Sample_02_01/Game/Game.slnを開いてください。</p>
+<h3 id="step-1-d3d%E3%83%87%E3%83%90%E3%82%A4%E3%82%B9%E3%81%AE%E4%BD%9C%E6%88%90">step-1 D3Dデバイスの作成。</h3>
+<p> では、まずはグラフィックカードにアクセスするための抽象化インターフェースのD3Dデバイスを作成しましょう。今回はデフォルト指定されてるグラフィックカードにアクセスするD3Dデバイスを作成しています。main.cppにリスト2.9のプログラムを入力してください。</br>
+[リスト2.9]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-1 D3Dデバイスの作成。</span>
+<span class="hljs-comment">// グラフィックカードにアクセスするためのインターフェースを作成する。</span>
+ComPtr&lt;ID3D12Device5&gt; d3dDevice = <span class="hljs-literal">nullptr</span>;
+HRESULT hr = D3D12CreateDevice(
+    <span class="hljs-literal">nullptr</span>,					<span class="hljs-comment">// 使用するGPUアダプタを指定する。</span>
+                                <span class="hljs-comment">// nullptrを指定するとデフォルトのGPUアダプタが使用される。</span>
+                                <span class="hljs-comment">// 例えば「NVIDIA製のGPUが刺さっている場合にそれを最優先で使いたい」</span>
+                                <span class="hljs-comment">// といった処理を実装したい場合は、このアダプタを明示的に指定する。</span>
+                                <span class="hljs-comment">// パソコンに搭載されいてるGPUアダプタはIDXGIFactory::EnumAdapters()を使えば列挙できる。</span>
+    D3D_FEATURE_LEVEL_12_1,		<span class="hljs-comment">// DirectX12のバージョンを指定する。今回は12.1を指定している。</span>
+    IID_PPV_ARGS(&amp;d3dDevice)	<span class="hljs-comment">// D3Dデバイスにアクセスするインターフェース。</span>
+);
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(<span class="hljs-literal">nullptr</span>, <span class="hljs-string">L"D3Dデバイスの作成に失敗しました。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</div></code></pre>
+<h3 id="step-2-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%A2%E3%83%AD%E3%82%B1%E3%83%BC%E3%82%BF%E3%83%BC%E3%81%AE%E4%BD%9C%E6%88%90">step-2 コマンドアロケーターの作成。</h3>
+<p> 続いて、コマンドを記憶するためのメモリを確保するコマンドアロケータを作成しましょう。main.cppにリスト2.10のプログラムを入力してください。</br>
+[リスト2.10]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-2 コマンドアロケーターの作成。</span>
+ComPtr&lt; ID3D12CommandAllocator &gt; commandAllocator;
+hr = d3dDevice-&gt;CreateCommandAllocator(
+    D3D12_COMMAND_LIST_TYPE_DIRECT,
+    IID_PPV_ARGS(&amp;commandAllocator));
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(hwnd, <span class="hljs-string">L"コマンドアロケータの作成に失敗しました。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</div></code></pre>
+<h3 id="step-3-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%AA%E3%82%B9%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90">step-3 コマンドリストの作成。</h3>
+<p> 続いて、コマンドをリストで管理するためのコマンドリストを作成します。main.cppにリスト2.11のプログラムを入力してください。</br>
+[リスト2.11]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-3 コマンドリストの作成。</span>
+ComPtr&lt; ID3D12GraphicsCommandList4&gt; commandList;
+hr = d3dDevice-&gt;CreateCommandList(
+    <span class="hljs-number">0</span>, 
+    D3D12_COMMAND_LIST_TYPE_DIRECT,
+    commandAllocator.Get(),
+    <span class="hljs-literal">nullptr</span>, 
+    IID_PPV_ARGS(&amp;commandList)
+);
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(hwnd, <span class="hljs-string">L"コマンドリストの作成に失敗しました。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</div></code></pre>
+<h3 id="step-4-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%AD%E3%83%A5%E3%83%BC%E3%81%AE%E4%BD%9C%E6%88%90">step-4 コマンドキューの作成。</h3>
+<p> 描画コマンド関係の最後の初期化処理として、コマンドキューを作成しましょう。リスト2.12のプログラムを入力してください。</br>
+[リスト2.12]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-4 コマンドキューの作成。</span>
+D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+ComPtr&lt;ID3D12CommandQueue&gt; commandQueue;
+hr = d3dDevice-&gt;CreateCommandQueue( &amp;queueDesc, IID_PPV_ARGS(&amp;commandQueue) );
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(hwnd, <span class="hljs-string">L"コマンドキューの作成に失敗した。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</div></code></pre>
+<h3 id="step-5-gpu%E3%81%A8cpu%E3%81%AE%E5%90%8C%E6%9C%9F%E3%82%92%E3%81%A8%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E4%BD%9C%E6%88%90">step-5 GPUとCPUの同期をとるためのオブジェクトを作成。</h3>
+<p> これで初期化処理は最後です。最後にCPUとGPUの同期をとるためのフェンスオブジェクトとイベントハンドラを作成しましょう。main.cppにリスト2.13のプログラムを入力してください。</br>
+[リスト2.13]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-5 GPUとCPUの同期をとるためのオブジェクトを作成。</span>
+ComPtr&lt;ID3D12Fence&gt; fence;
+hr = d3dDevice-&gt;CreateFence(
+    <span class="hljs-number">0</span>,						<span class="hljs-comment">// 初期値</span>
+    D3D12_FENCE_FLAG_NONE,	<span class="hljs-comment">// フェンスの動作に関するオプション。今回はオプションなし。</span>
+    IID_PPV_ARGS(&amp;fence)
+);
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    <span class="hljs-comment">// フェンスの作成に失敗した。</span>
+    MessageBox(hwnd, <span class="hljs-string">L"フェンスの作成に失敗した。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+<span class="hljs-comment">// 同期を行うためのイベントハンドラを作成する。</span>
+HANDLE feceEventHandle = CreateEvent(<span class="hljs-literal">nullptr</span>, FALSE, FALSE, <span class="hljs-literal">nullptr</span>);
+<span class="hljs-keyword">if</span> (feceEventHandle == <span class="hljs-literal">nullptr</span>) {
+    <span class="hljs-comment">// イベントハンドルの作成に失敗した。</span>
+    MessageBox(hwnd, <span class="hljs-string">L"同期を行うためのイベントハンドルの作成に失敗した。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+<span class="hljs-comment">// フェンスに設定する値を記憶する変数を定義する。</span>
+<span class="hljs-keyword">int</span> fenceValue = <span class="hljs-number">1</span>;
+</div></code></pre>
+<h3 id="step-6-%EF%BC%91%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%81%AE%E6%8F%8F%E7%94%BB%E9%96%8B%E5%A7%8B%E3%81%AE%E5%87%A6%E7%90%86%E3%82%92%E5%AE%9F%E8%A3%85">step-6 １フレームの描画開始の処理を実装。</h3>
+<p> step-6からは毎フレーム実行されるゲームループの処理です。まずは新しいコマンドを生成するために、コマンドアロケータとコマンドリストのリセットを行います。コマンドアロケータのリセットをすることで、前のフレームに使用されたメモリが全て未使用状態になります。コマンドリストのリセットは、前のフレームのコマンドのリストをクリアすると同時にコマンドリスト作成に使用するコマンドアロケータも指定することができます。では、main.cppにリスト2.14のプログラムを入力してください。</br>
+[リスト2.14]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-6 １フレームの描画開始の処理を実装。</span>
+<span class="hljs-comment">// コマンドアロケータをリセット。</span>
+commandAllocator-&gt;Reset();
+<span class="hljs-comment">// コマンドリストもリセット</span>
+commandList-&gt;Reset(
+    commandAllocator.Get(),	<span class="hljs-comment">// コマンド作成に使用するアロケータ。</span>
+    <span class="hljs-literal">nullptr</span>					<span class="hljs-comment">// デフォルトパイプラインステート。</span>
+                            <span class="hljs-comment">// nullptrを指定している場合、ドライバごとのデフォルトパイプラインステートにリセットされるので、</span>
+                            <span class="hljs-comment">// 動作は不定となる。</span>
+);
+</div></code></pre>
+<h3 id="step-7-%EF%BC%91%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%81%AE%E6%8F%8F%E7%94%BB%E7%B5%82%E4%BA%86%E3%81%AE%E5%87%A6%E7%90%86%E3%82%92%E5%AE%9F%E8%A3%85">step-7 １フレームの描画終了の処理を実装。</h3>
+<p> ゲームループの最後に描画終了処理を実装しましょう。今回実装する描画の終了処理は、作成されたコマンドをGPUにキックする処理と、CPUとGPUの同期をとる処理です。では、リスト2.15のプログラムを入力してください。</br>
+[リスト2.15]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-7 １フレームの描画終了の処理を実装。</span>
+<span class="hljs-comment">// コマンドリストを閉じる。</span>
+commandList-&gt;Close();
+<span class="hljs-comment">// コマンドリストを配列にまとめて、コマンドキューに積んでGPUを走らせる。</span>
+ID3D12CommandList* commandListArray[] = { commandList.Get() };
+commandQueue-&gt;ExecuteCommandLists(<span class="hljs-number">1</span>, commandListArray);
+<span class="hljs-comment">// GPUの処理の終了待ち。</span>
+
+<span class="hljs-comment">// フェンスにフェンスバリューを設定する。</span>
+commandQueue-&gt;Signal(fence.Get(), fenceValue);
+<span class="hljs-comment">// フェンスの値がfenceValueになったときにイベントが起きるように設定。</span>
+fence-&gt;SetEventOnCompletion(fenceValue, feceEventHandle);
+<span class="hljs-comment">// イベントの発生を待つ。</span>
+WaitForSingleObject(feceEventHandle, INFINITE);
+<span class="hljs-comment">// フェンスバリューをインクリメント。</span>
+fenceValue++;
+
+</div></code></pre>
+<h3 id="step-8-%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AB%E3%82%92%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%BA">step-8 イベントハンドルをクローズ。</h3>
+<p> では、ゲーム終了時に最後にイベントハンドルをクローズする処理を実装しましょう。ウィンドウの✕ボタンなどが押されてゲームが終了するときは、ゲームループを抜けています。ですので、ゲームループを抜けた後では、イベントハンドラやD3Dリソースなどの資源をシステムに返却しましょう。今回開放する必要があるリソースは同期オブジェクトで利用したイベントハンドラだけです。では、main.cppにリスト2.16のプログラムを入力してください。</br>
+[リスト2.16]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-8 イベントハンドルをクローズ</span>
+CloseHande( feceEventHandle );
+</div></code></pre>
+<h2 id="26-com%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E7%AE%A1%E7%90%86">2.6 COMオブジェクトの管理</h2>
+<p> さて少しわき道にそれる話となりますが、COMについて少しだけ説明します。COMはComponent Object Modelの略称で、Microsoftが提唱していた、ソフトウェアの機能を部品化して外部から呼び出して利用する仕組みを定めた技術仕様の一つです。実はDirectXのAPIの大半はCOMの仕様で設計されています。例えば、ここまで作成したD3Dデバイス、コマンドアロケータ、コマンドリスト、コマンドキュー、フェンスなどは全てCOMオブジェクトとなります。COMに関する詳細な説明はここでは行いませんが、COMオブジェクトの管理についてだけ解説します。D3DデバイスやコマンドアロケータなどといったCOMオブジェクトは不要になったら明示的に解放を行う必要があります。解放を行わないとメモリ上にリソースが残っている状態となってしまい、メモリリークが発生してしまいます。</br>
+ COMオブジェクトのリソースは下記のようにRelease()関数を呼び出すことで解放することができます(さっきのハンズオンで解放してないじゃないか！というツッコミが聞こえてきそうですが、それは後で解説します)。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// リソースを解放。</span>
+d3dDevice-&gt;Release();
+</div></code></pre>
+<p> このようにCOMオブジェクトのRelease()関数を呼び出すことで、リソースを解放することができます。しかし、この説明は少々正確ではありません。正確にはRelease()関数を呼び出すことによって、COMオブジェクトの参照カウンタがデクリメントされ0になったら解放されるのです。次のサンプルコードを見てください。</br></p>
+<pre class="hljs"><code><div>
+ID3D12Device5* d3dDevice = <span class="hljs-literal">nullptr</span>;
+<span class="hljs-comment">// D3Dデバイスを作成。ここで作成されたCOMオブジェクトの参照カウンタは1となる。</span>
+HRESULT hr = D3D12CreateDevice(
+    <span class="hljs-literal">nullptr</span>,
+    D3D_FEATURE_LEVEL_12_1,
+    IID_PPV_ARGS(&amp;d3dDevice)
+);
+
+<span class="hljs-comment">// COMオブジェクトの参照先が増えたのでAddRef()関数を利用して明示的に参照カウンタをインクリメントする。</span>
+ID3D12Device5* d3dDevice2 = d3dDevice;
+d3dDevice2-&gt;AddRef();   <span class="hljs-comment">// ここで参照カウンタは2となる。</span>
+
+<span class="hljs-comment">// Release()関数を利用して参照カウンタをデクリメントする。</span>
+d3dDevice-&gt;Release();   <span class="hljs-comment">// 参照カウンタは1なので解放しない。</span>
+d3dDevice2-&gt;Release();  <span class="hljs-comment">// ここで参照カウンタが0になるので解放する。</span>
+</div></code></pre>
+<p> さて、このサンプルコードはまったく意味のないコードなので、参照カウンタが必要な理由がイマイチ分かりません。ではこの参照カウンタという仕組みはどのような場合に利用するのでしょうか？これはテクスチャや定数バッファといった複数の箇所から参照されるリソースで利用すべき機能です。例えばテクスチャなどを複数のモデルで使いまわしたい場合を考えます。つまりモデルＡが生成したテクスチャをモデルＢが使いまわしたいわけです。プログラム的には次のようになるでしょう。さて、この時リスト2.17のように、モデルBが削除されたらどうなるでしょうか？</br>
+[リスト2.17]</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Model</span>{</span>
+<span class="hljs-keyword">public</span>:
+    ID3D12Resource* m_texture = <span class="hljs-literal">nullptr</span>;
+    <span class="hljs-comment">// デストラクタ</span>
+    ~Model()
+    {
+        m_texture-&gt;Release();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(ID3D12Resource* texture)</span>
+    </span>{
+        <span class="hljs-keyword">if</span>( texture == <span class="hljs-literal">nullptr</span>){
+            <span class="hljs-comment">// テクスチャが指定されていないので、テクスチャリソースを作成。</span>
+            CreateTexture( m_texture );
+        }<span class="hljs-keyword">else</span>{
+            <span class="hljs-comment">// テクスチャを使いまわす。</span>
+            m_texture = texture;
+        }
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Draw</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// テクスチャを利用してドローコールを実行するコードが書かれている。</span>
+    }
+};
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    Model* a = <span class="hljs-keyword">new</span> Model();
+    a-&gt;Init( <span class="hljs-literal">nullptr</span> );
+    <span class="hljs-comment">// bはaのテクスチャを利用して初期化する。</span>
+    Model* b = <span class="hljs-keyword">new</span> Model();
+    b-&gt;Init( a-&gt;m_texture );
+    
+    <span class="hljs-comment">// モデルBを削除する。</span>
+    <span class="hljs-comment">// つまりここでModelクラスのデストラクタが呼ばれるので、</span>
+    <span class="hljs-comment">// テクスチャが解放されてしまう！！！</span>
+    <span class="hljs-keyword">delete</span> b;
+
+    <span class="hljs-comment">// 解放されたテクスチャにアクセスしてしまう。</span>
+    a-&gt;Draw();
+    
+    <span class="hljs-keyword">delete</span> a;
+}
+</div></code></pre>
+<p> このような問題はテクスチャが複数のポインタから参照されているにも関わらず、解放を行ってしまっているために起こります。そこで、これを解決するために参照カウンタを利用します。リスト2.18のプログラムを見てください。</br>
+[リスト2.18]</p>
+<pre class="hljs"><code><div>[リスト<span class="hljs-number">2.17</span>]
+```cpp
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Model</span>{</span>
+<span class="hljs-keyword">public</span>:
+    ID3D12Resource* m_texture = <span class="hljs-literal">nullptr</span>;
+    <span class="hljs-comment">// デストラクタ</span>
+    ~Model()
+    {
+        m_texture-&gt;Release();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(ID3D12Resource* texture)</span>
+    </span>{
+        <span class="hljs-keyword">if</span>( texture == <span class="hljs-literal">nullptr</span>){
+            <span class="hljs-comment">// テクスチャが指定されていないので、テクスチャリソースを作成。</span>
+            CreateTexture( m_texture );
+        }<span class="hljs-keyword">else</span>{
+            <span class="hljs-comment">// テクスチャを使いまわす。</span>
+            m_texture = texture;
+            <span class="hljs-comment">// 【注目】参照カウンタをインクリメント</span>
+            m_texture-&gt;AddRef();
+        }
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Draw</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// テクスチャを利用してドローコールを実行するコードが書かれている。</span>
+    }
+};
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    Model* a = <span class="hljs-keyword">new</span> Model();
+    a-&gt;Init( <span class="hljs-literal">nullptr</span> );
+    <span class="hljs-comment">// b,c,dはaのテクスチャを利用して初期化する。</span>
+    Model* b = <span class="hljs-keyword">new</span> Model();
+    b-&gt;Init( a-&gt;m_texture );    <span class="hljs-comment">// テクスチャの参照カウンタが2になる。</span>
+
+    <span class="hljs-comment">// モデルBを削除する。</span>
+    <span class="hljs-comment">// ここでModelクラスのデストラクタが呼ばれるが、</span>
+    <span class="hljs-comment">// テクスチャの参照カウンタが1になるだけなので解放はされない。</span>
+    <span class="hljs-keyword">delete</span> b;
+
+    <span class="hljs-comment">// 問題なく描画できる。</span>
+    a-&gt;Draw();
+    
+    <span class="hljs-keyword">delete</span> a;
+}
+</div></code></pre>
+<p> このようにCOMオブジェクトは参照カウンタを利用してリソースを管理する仕組みになっており、複数の箇所から参照されるリソースをスマートに管理することができます。しかしデメリットとして、COMオブジェクトは参照カウンタの操作を明示的に行う必要があり、AddRef()関数の呼び忘れやRelease()関数の呼び忘れなどによって、簡単にリソースのリークやクラッシュが発生してしまうという問題が起こります。そこで、WindowsSDKにはCOMオブジェクトの参照カウンタの操作を自動的に行ってくれるテンプレートクラスが用意されています。それが、Microsoft::WRL::ComPtr<T>クラスです。このクラスを利用することで、参照カウンタの上げ、下げが自動的に行われるようになり、参照カウンタの管理という煩わしさから解消されます。リスト2.19はComPtrを利用しているサンプルコードです。</br></p>
+<p>[リスト2.19]</p>
+<pre class="hljs"><code><div>ComPtr&lt;ID3D12Resoruce&gt; texture_00;
+<span class="hljs-comment">// テクスチャが作られて参照カウンタが1になる。</span>
+CreateTexture( texture_00 );
+<span class="hljs-comment">// texture_01はtexture_00が指しているテクスチャと同じリソースを指す。</span>
+<span class="hljs-comment">// そして、参照カウンタも自動的に2になる。</span>
+ComPtr&lt;ID3D12Resoruce&gt; texture_01;
+texture_01 = texture_00;
+</div></code></pre>
+<p> Microsoft::WRL::ComPtr<T>クラスを利用することで、参照カウンタの上げ、下げが自動化されるためAddRef()関数とRelease()関数を呼び出す必要がほぼなくなります(注：「ほぼ」といっている点に注意してください。明示的なタイミングで解放したい場合など、呼び出す必要がある場合もあります)。そのため、先ほどのModelクラスのテクスチャの使いまわしのコードはリスト2.20のようになります。</br>
+[リスト2.20]</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Model</span>{</span>
+<span class="hljs-keyword">public</span>:
+    ComPtr&lt;ID3D12Resource&gt; m_texture = <span class="hljs-literal">nullptr</span>;
+    <span class="hljs-comment">// デストラクタ</span>
+    ~Model()
+    {
+        <span class="hljs-comment">// [注目] 呼ばなくていい。</span>
+        <span class="hljs-comment">// m_texture-&gt;Release();</span>
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(ID3D12Resource* texture)</span>
+    </span>{
+        <span class="hljs-keyword">if</span>( texture == <span class="hljs-literal">nullptr</span>){
+            <span class="hljs-comment">// テクスチャが指定されていないので、テクスチャリソースを作成。</span>
+            CreateTexture( m_texture );
+        }<span class="hljs-keyword">else</span>{
+            <span class="hljs-comment">// テクスチャを使いまわす。</span>
+            m_texture = texture;
+            <span class="hljs-comment">// 【注目】呼ばなくていい。</span>
+            <span class="hljs-comment">// m_texture-&gt;AddRef();</span>
+        }
+    }
+    
+};
+
+</div></code></pre>
+<p> m_textureの管理にComPtrを利用しているため、Release()関数の呼び出しとAddRef()関数の呼び出しが不要になるためコメントアウトしています。さて、ComPtrを利用することによって、参照カウンタの操作が自動化されて、参照カウンタの上げ忘れや下げ忘れといったヒューマンエラーが発生する確率が大幅に下がります。しかし、ComPtrは自動的に参照カウンタの上げ下げを行うため、不必要なケースであっても参照カウンタの操作が行われてしまい、多少のオーバーヘッドが発生します。本書ではCOMオブジェクトの管理にComPtrを利用していきますが、全てのケースでComPtrが有用であるとは考えないようにしてください。</p>
+<h2 id="27-%E8%A9%95%E4%BE%A1%E3%83%86%E3%82%B9%E3%83%88">2.7 評価テスト</h2>
+<p>下記のURLの評価テストを実施しなさい。</br>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSe9seWZG2U6ddJeVpqLxONLDfiNx-IdZd4Vhvu6CnOQtW4zCw/viewform?usp=sf_link">評価テスト</a></p>
+<h2 id="28-%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%90%E3%83%83%E3%83%95%E3%82%A1">2.8 フレームバッファ</h2>
+<p> では、最後にフレームバッファについて勉強しましょう。2.3節で描画コマンドを生成してキックする方法を学びました。しかし、まだフレームバッファを作成していません。フレームバッファとはディスプレイに表示されるカラーバッファのことです。テクスチャだと考えてもらってもＯＫです。このフレームバッファに書き込まれた絵がテレビ画面やパソコンのディスプレイに表示されていることになります。</p>
+<h3 id="281-%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%82%92%E8%A4%87%E6%95%B0%E7%94%A8%E6%84%8F%E3%81%99%E3%82%8B">2.8.1 フレームバッファを複数用意する？</h3>
+<p> 多くのレンダリングエンジンではフレームバッファを複数用意しています。フレームバッファを２枚用意しているエンジンや、時には３枚以上のフレームバッファを用意しているものもあります。これはレンダリングエンジンの仕様によって決めるものなのですが、今回はもっともスタンダートである、２枚のカフレームバッファで説明していきます。</br>
+ ディスプレイに表示されるのはフレームバッファが保持しているカラーバッファです(図2.2)。</br>
+[図2.2]</br>
+<img src="fig/2.2.png" width="400"></br>
+ さて、ここで一つの疑問が生じます。図2.2をみると分かるようにフレームバッファというのはディスプレイに表示されている絵です。では、なぜこの絵が複数枚必要なのでしょうか？今回は２枚のフレームバッファで考えていくので、イメージ的には図2.3のようになります。</br></p>
+<p>[図2.3]</br>
+<img src="fig/2.3.png" width="400"></br>
+ 図2.3を見てもらうと分かるようにフレームバッファは二つあるのですが、ディスプレイに表示しているフレームバッファは１つだけです。これではディスプレイに表示していないフレームバッファが無駄であるかのように感じます。しかし、多くのレンダリングエンジンのフレームバッファは２枚用意されており、図2.3のような構成になっています。では、なぜ二つのフレームバッファが必要なのか？答えはもしも、フレームバッファが１つだけしかなかったら、絵を書いている真っ最中の状態のフレームバッファが画面に表示される可能性があるためです。ディスプレイはある一定の間隔でフレームバッファを参照して、そこに書かれている絵の情報を元にディスプレイの発行状況を変化させていきます。この一定間隔というのがディスプレイのリフレッシュレートと呼ばれるモノです。例えば、リフレッシュレートが60hzのモニタであれば、1/60秒の間隔でフレームバッファの情報を参照しにいって、そのタイミングのフレームバッファの情報を使ってディスプレイの絵を更新します。このディスプレイの絵の更新はゲームの１フレームの処理の実行具合などは一切考慮せずに、機械的に行われます。つまり、まだ１フレームの絵を描いている真っ最中であったとしても、お構いなしでディスプレの更新が行われます。例えば、１フレームの絵を完成させるためには次の要素を描画する必要があるとします。</p>
+<ol>
+<li>空を描画</li>
+<li>背景を描画</li>
+<li>主人公を描画</li>
+<li>モンスターを描画</li>
+<li>ギミックを描画</li>
+<li>エフェクトを描画</li>
+</ol>
+<p> この時、ディスプレイの絵の更新が4のモンスターを描画する前のタイミングで発生したとすると、ディスプレイには空と背景と主人公のみが書かれた絵が表示されてしまいます。</br>
+ この問題はフレームバッファをダブルバッファ化することで解決することができます。GPUが絵を描きこむバッファをバックバッファ、ディスプレイに絵を表示するバッファをフロントバッファとするのです(図2.4)。
+[図2.4]</br>
+<img src="fig/2.4.png" width="400"></br>
+ 図2.4のようにGPUはディスプレイに表示されていないバックバッファに対して絵を書き込んでいくため、書きこんでいる最中の絵がディスプレイに表示されることはありません。そして、GPUの仕事が完了して１フレームの絵が完成すると図2.5のようにバックバッファとフロントバッファを入れ替えるのです。こうすることで、ディスプレイには常に完成している絵が表示されるようになります</p>
+<p>[図2.5]</br>
+<img src="fig/2.5.png" width="400"></br></p>
+<h3 id="282-%E3%82%B9%E3%83%AF%E3%83%83%E3%83%97%E3%83%81%E3%82%A7%E3%82%A4%E3%83%B3">2.8.2 スワップチェイン</h3>
+<p> 2.8.1節でフレームバッファをダブルバッファ化して表示する絵を切り替えることで、描画中の絵を表示してしまう問題を解決することができると説明しました。DirectX12ではスワップチェインというコンポーネントを利用することで、この機能を実現できます。スワップは「交換する」という意味の英単語です。これは著者の想像ですが、おそらくフロントバッファとダブルバッファを切り替える機能があるため、スワップチェインという名前がついているのだと思います。</p>
+<h3 id="283-%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0%E3%82%BF%E3%83%BC%E3%82%B2%E3%83%83%E3%83%88%E3%83%93%E3%83%A5%E3%83%BC">2.8.3 レンダリングターゲットビュー</h3>
+<p> スワップチェインを作成することでフレームバッファを作成することができました。このフレームバッファをGPUの描画先、つまりレンダリングターゲットであることを示すディスクリプタ(メモリブロックを説明したもの)が必要になります。DirectX12ではレンダリングターゲトであることを示すディスクリプタのことをレンダリングターゲットビューと呼んでいます。ディスクリプタの詳細はChapter4のリソースバインディングで説明します。ここでは、フレームバッファをGPUの描画先として設定するためには、それを示すディスクリプタを作る必要があって、そのディスクリプタはレンダリングターゲットビューと呼ばれている、という感じに理解していてください。</br>レンダリングターゲットビューを作成することができたら、毎フレーム、ID3D12GraphicsCommandList::OMSetRenderTargets()関数などを利用して、描画先を設定します。</p>
+<h2 id="29-%E3%83%8F%E3%83%B3%E3%82%BA%E3%82%AA%E3%83%B3%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%81%AE%E4%BD%9C%E6%88%90%E5%88%87%E3%82%8A%E6%9B%BF%E3%81%88%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">2.9 【ハンズオン】フレームバッファの作成、切り替えを実装する。</h2>
+<p> では、スワップチェインを利用してフレームバッファを作成して、切り替えるプログラムを実装していきましょう。Sample_02_02/Game/Game.slnを立ち上げて、main.cppを開いてください。</p>
+<h3 id="step-1-dxgi%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC%E3%82%92%E4%BD%9C%E6%88%90">step-1 DXGIファクトリーを作成。</h3>
+<p> スワップチェインを作るためには、フレームバッファの作成などよりハードウェアに近い低レベルな操作が必要になるため、DXGIを利用する必要があります。今回はDXGIのIDXGIFactory4というコンポーネントを使います。では、main.cppにリスト2.21のプログラムを入力してください。</br></p>
+<p>[リスト2.21 main.cpp]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-1 DXGIファクトリーを作成。</span>
+UINT dxgiFactoryFlags = <span class="hljs-number">0</span>;
+ComPtr&lt; IDXGIFactory4 &gt; dxgiFactory;
+hr = CreateDXGIFactory2(dxgiFactoryFlags, IID_PPV_ARGS(&amp;dxgiFactory));
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(hwnd, <span class="hljs-string">L"DXGIファクトリーの作成に失敗した。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</div></code></pre>
+<h3 id="step-2-%E3%82%B9%E3%83%AF%E3%83%83%E3%83%97%E3%83%81%E3%82%A7%E3%82%A4%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90">step-2 スワップチェインを作成。</h3>
+<p> DXGIファクトリーを作成することができたので、次はスワップチェインを作成します。スワップチェインを作成するためには、フレームバッファの枚数や解像度、カラーフォーマットなどの情報が必要となります。DXGI_SWAP_CHAIN_DESC1構造体を利用して、これらの情報を設定し、IDXGIFactory4::CreateSwapChainForHwnd()関数を呼び出すことでスワップチェインを作成することができます。では、main.cppにリスト2.22のプログラムを入力してください。</br></p>
+<p>[リスト2.22 main.cpp]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-2 スワップチェインを作成。</span>
+DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+swapChainDesc.BufferCount = <span class="hljs-number">2</span>;									<span class="hljs-comment">// フレームバッファの数。</span>
+swapChainDesc.Width = <span class="hljs-number">1280</span>;										<span class="hljs-comment">// フレームバッファの幅。	</span>
+swapChainDesc.Height = <span class="hljs-number">720</span>;										<span class="hljs-comment">// フレームバッファの高さ。</span>
+swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;				<span class="hljs-comment">// フレームバッファのカラーフォーマット。</span>
+swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	<span class="hljs-comment">// フレームバッファの利用方法。</span>
+                                                                <span class="hljs-comment">// 今回はレンダリングターゲットとして利用する。</span>
+swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;		<span class="hljs-comment">// バックバッファとフロントバッファの切り替え方法。</span>
+                                                                <span class="hljs-comment">// DirectX12でサポートされているのは、下記の二つのみ。</span>
+                                                                <span class="hljs-comment">// DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL </span>
+                                                                <span class="hljs-comment">// DXGI_SWAP_EFFECT_FLIP_DISCARD </span>
+                                                                <span class="hljs-comment">// 詳細は下記URLを参照。</span>
+                                                                <span class="hljs-comment">// https://docs.microsoft.com/en-us/windows/win32/api/dxgi/ne-dxgi-dxgi_swap_effect</span>
+swapChainDesc.SampleDesc.Count = <span class="hljs-number">1</span>;								<span class="hljs-comment">// MSAA(Multi sampling anti aliasing)用のパラメータ。</span>
+                                                                <span class="hljs-comment">// 今回はMSAAを行わないので、サンプル数は1。</span>
+IDXGISwapChain1* swapChain;
+hr = dxgiFactory-&gt;CreateSwapChainForHwnd(
+    commandQueue.Get(),
+    hwnd,
+    &amp;swapChainDesc,
+    <span class="hljs-literal">nullptr</span>,
+    <span class="hljs-literal">nullptr</span>,
+    &amp;swapChain
+);
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    <span class="hljs-comment">// スワップチェインの作成に失敗した。</span>
+    MessageBox(hwnd, <span class="hljs-string">L"スワップチェインの作成に失敗した。\n"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</div></code></pre>
+<h3 id="step-3-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AE%E6%83%85%E5%A0%B1%E3%82%92%E6%9B%B8%E3%81%8D%E8%BE%BC%E3%82%80%E3%81%9F%E3%82%81%E3%81%AE%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%BF%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">step-3 リソースの情報を書き込むためのディスクリプタを作成する。</h3>
+<p> スワップチェインを作成することができたら、次はフレームバッファをレンダリングターゲットとして利用するために、レンダリングターゲットビューを作成します。レンダリングターゲットビューとはディスクリプタのことです。ディスクリプタについては、Chapter4のリソースバインディングで詳細に説明しますが、DirectX12にはディスクリプタというグラフィックメモリ上のリソースの詳細を設定する仕組みがあります。例えば、メモリアドレス1000～2000に確保されているリソースをレンダリングターゲットとして、利用するのであれば、GPUからそれを認識できるようにするために、ディスクリプタを作成します。今回であれば、フレームバッファをレンダリングターゲットとして利用するので、それを示すディスクリプタを作成します。今回のケースでは書き込み先となるカラーバッファが二つあるので、ディスクリプタも二つ作ります。では、main.cppにリスト2.23のプログラムを入力してください。
+[リスト2.23]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-3 リソースの情報を書き込むためのディスクリプタを作成する。</span>
+<span class="hljs-comment">// メモリブロックの情報を書き込むためのディスクリプタを作成する。</span>
+<span class="hljs-comment">// ディスクリプタヒープ(ディスクリプタの配列のようなもの)を確保する。</span>
+D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+desc.NumDescriptors = <span class="hljs-number">2</span>;	<span class="hljs-comment">// ディスクリプタの数。フレームバッファの枚数と同じ数。</span>
+desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;		<span class="hljs-comment">// レンダリングターゲットビュー用。</span>
+desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;	<span class="hljs-comment">// ディスクリプタヒープのオプション。</span>
+                                                <span class="hljs-comment">// 今回はオプションなし。</span>
+ComPtr&lt; ID3D12DescriptorHeap&gt; rtvDescriptorHeap;
+<span class="hljs-comment">// ディスクリプタヒープを作成する。</span>
+hr = d3dDevice-&gt;CreateDescriptorHeap(&amp;desc, IID_PPV_ARGS(&amp;rtvDescriptorHeap));
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(hwnd, <span class="hljs-string">L"レンダリングターゲットビュー用のディスクリプタヒープの作成に失敗しました。"</span>, <span class="hljs-string">L"エラー"</span>, MB_OK);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+
+</div></code></pre>
+<h3 id="step-4-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AE%E6%83%85%E5%A0%B1%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%9F%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%BF%E3%81%AB%E6%9B%B8%E3%81%8D%E8%BE%BC%E3%82%80">step-4 リソースの情報を作成したディスクリプタに書き込む。</h3>
+<p> ディスクリプタを作成することができたので、リソース情報を書きこんでいきましょう。レンダリングターゲットの情報はID3D12Device::CreateRenderTargetView()関数を利用することで書き込むことができます。カラーバッファは二つあるので、書き込む情報も二つです。では、リスト2.23のプログラムを入力してください。</br>
+[リスト2.23]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-4 リソースの情報を作成したディスクリプタに書き込む。</span>
+
+<span class="hljs-comment">// RTV用のディスクリプタのサイズを計算する。</span>
+<span class="hljs-keyword">int</span> rtvDescriptorSize = d3dDevice-&gt;GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+<span class="hljs-comment">// RTV用のディスクリプタの書き込み先ハンドルを取得する。</span>
+D3D12_CPU_DESCRIPTOR_HANDLE rtvDescritporWriteHandle = rtvDescriptorHeap-&gt;GetCPUDescriptorHandleForHeapStart();
+
+D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptorCPUHandles[<span class="hljs-number">2</span>];
+ID3D12Resource* frameBuffer[<span class="hljs-number">2</span>];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++) {
+    <span class="hljs-comment">// スワップチェイン内に作られているフレームバッファを取得。</span>
+    swapChain-&gt;GetBuffer(i, IID_PPV_ARGS(&amp;frameBuffer[i]));
+    <span class="hljs-comment">// ディスクリプタヒープにレンダリングターゲットビューの情報を書き込む。</span>
+    d3dDevice-&gt;CreateRenderTargetView(
+        frameBuffer[i],				<span class="hljs-comment">// フレームバッファ</span>
+        <span class="hljs-literal">nullptr</span>,					<span class="hljs-comment">// 今回はnullptrでよい。</span>
+        rtvDescritporWriteHandle	<span class="hljs-comment">// 書き込み先となるディスクリプタハンドル。</span>
+    );
+    <span class="hljs-comment">// 書き込んだディスクリプタのCPUハンドルを記憶しておく。</span>
+    rtvDescriptorCPUHandles[i] = rtvDescritporWriteHandle;
+    <span class="hljs-comment">// 書き込み先を進める。</span>
+    rtvDescritporWriteHandle.ptr += rtvDescriptorSize;
+}
+</div></code></pre>
+<h3 id="step-5-%E3%83%90%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%81%AE%E7%95%AA%E5%8F%B7%E3%81%AE%E7%95%AA%E5%8F%B7%E3%82%92%E8%A1%A8%E3%81%99%E5%A4%89%E6%95%B0%E3%82%92%E5%AE%9A%E7%BE%A9%E3%81%99%E3%82%8B">step-5 バックバッファの番号の番号を表す変数を定義する。</h3>
+<p> 続いて、バックバッファの番号を表す変数を定義します。この変数を使って、書き込み先として設定するレンダリングターゲットを切り替えていきます。では、リスト2.24のプログラムを入力してください。</br>
+[リスト 2.24]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-4 バックバッファの番号の番号を表す変数を定義する。</span>
+<span class="hljs-keyword">int</span> backBufferNo = <span class="hljs-number">0</span>;
+</div></code></pre>
+<h3 id="step-5-%E3%83%90%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%82%92%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0%E3%82%BF%E3%83%BC%E3%82%B2%E3%83%83%E3%83%88%E3%81%A8%E3%81%97%E3%81%A6%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">step-5 バックバッファをレンダリングターゲットとして設定する。</h3>
+<p> step-5からは毎フレームのゲームループの処理です。まずは、バックバッファをレンダリングターゲットとして設定します。ここで一点注意点があって、DirectX12では、リソースの状態というものがあります。レンダリングターゲットを設定するためには、リソースの状態をレンダリングターゲット設定可能状態になるまで待つ、リソースバリアを行う必要があります。リソースの状態を遷移させることができたらID3D12GraphicsCommandList4::OMSetRenderTargets()関数を利用して、レンダリングターゲットを設定します。では、リスト2.25のプログラムを入力してください。</br></p>
+<p>[リスト 2.25]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-5 バックバッファをレンダリングターゲットとして設定する。</span>
+<span class="hljs-comment">//　バックバッファがレンダリングとして設定できるようになるまでリソースバリアを入れる。</span>
+CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(frameBuffer[backBufferNo], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+commandList-&gt;ResourceBarrier(<span class="hljs-number">1</span>, &amp;barrier);
+<span class="hljs-comment">// バックバッファをレンダリングターゲットとして設定する。</span>
+commandList-&gt;OMSetRenderTargets(<span class="hljs-number">1</span>, &amp;rtvDescriptorCPUHandles[backBufferNo], FALSE, <span class="hljs-literal">nullptr</span>);
+
+<span class="hljs-comment">// バックバッファのカラーをクリア。</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> clearColor[] = { <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.5f</span>, <span class="hljs-number">1.0f</span> };
+commandList-&gt;ClearRenderTargetView(rtvDescriptorCPUHandles[backBufferNo], clearColor, <span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>);
+
+</div></code></pre>
+<h3 id="step-6-%E3%83%90%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%81%A8%E3%83%95%E3%83%AD%E3%83%B3%E3%83%88%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%81%AE%E5%85%A5%E3%82%8C%E6%9B%BF%E3%81%88">step-6 バックバッファとフロントバッファの入れ替え。</h3>
+<p> では、これで最後です。フレームの最後にIDXGISwapChain1::Present()関数を使って、ディスプレイに表示しているカラーバッファを入れ替えます。入れ替えることができたら、次のフレームからはバックバッファの番号も入れ替える必要があるので、バックバッファの番号も切り替えます。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-6 バックバッファとフロントバッファの入れ替え。</span>
+<span class="hljs-comment">// Present()関数を使ってバックバッファとフロントバッファを入れ替える。</span>
+swapChain-&gt;Present(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+<span class="hljs-comment">// バッファが入れ替わったので、バックバッファの番号も入れ替える。</span>
+backBufferNo ^= <span class="hljs-number">1</span>;
+</div></code></pre>
+<p> 入力出来たら実行してください。今回は画面に灰色で塗りつぶされているフレームバッファの絵を貼り付けているので、ウィンドウの内部が灰色になっています(図2.6)。</br>
+[図2.6]</br>
+<img src="fig/2.6.png" width="400"></br></p>
+<h2 id="210-%E8%A9%95%E4%BE%A1%E3%83%86%E3%82%B9%E3%83%88">2.10 評価テスト</h2>
+<p>下記のURLの評価テストを実施しなさい。</br>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfqUycjWgct6cceYP_YVNKDNPdfNqBZVopzyhPOUiCdaz7XoA/viewform?usp=sf_link">評価テスト</a></p>
+<!-- 改ページ. -->
+<div style="page-break-before:always"></div>
+<h1 id="chapter-3-%E4%B8%89%E8%A7%92%E5%BD%A2%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">Chapter 3 三角形を表示する</h1>
+<p> Chapter2で絵を表示するための準備が整のったので、Chapter3では絵を表示するための最低限の実装について学んでいきます。</p>
+<h2 id="31-%E3%83%86%E3%82%AF%E3%82%B9%E3%83%81%E3%83%A3%E3%81%8C%E8%B2%BC%E3%82%89%E3%82%8C%E3%81%A6%E3%81%84%E3%81%AA%E3%81%84%E4%B8%89%E8%A7%92%E5%BD%A2%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">3.1 テクスチャが貼られていない三角形を表示する</h2>
+<p> このチャプターではテクスチャが貼られていない三角形ポリゴンを表示する方法について見ていきます。テクスチャが貼られていない三角形を描画するために必要な処理がDirectX12を用いて、絵を表示する最低限のプログラムになります。三角形を表示するために必要になってくるDirectX12のコンポーネントは次の５つです。</p>
+<ol>
+<li>ルートシグネチャ</li>
+<li>シェーダー</li>
+<li>パイプラインステート</li>
+<li>頂点バッファ</li>
+<li>インデックスバッファ
+ この５つのコンポーネントを準備して、ゲームループの中でドローコールを実行すれば絵を表示することができます。では、この５つについて詳しく見ていきましょう。</li>
+</ol>
+<h2 id="31-%E3%83%AB%E3%83%BC%E3%83%88%E3%82%B7%E3%82%B0%E3%83%8D%E3%83%81%E3%83%A3">3.1 ルートシグネチャ</h2>
+<p> ルートシグネチャはテクスチャ、定数バッファ、ストラクチャードバッファなどといった、グラフィックメモリ上のリソースとレジスタの関連付け(リソースバインディング)の設定を行うためのコンポーネントです。Chapter3で勉強していくテクスチャなしの三角形を表示するための処理には、テクスチャ、定数バッファといったレジスタと間付けを行うグラフィックリソースは出てきません。しかし、ルートシグネチャは必ず必要になります。このような場合はリスト3.1のようなプログラムで空のルートシグネチャを作成することになります。</br>
+[リスト3.1]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// ルートシグネチャにアクセスしなくていいシェーダーステージを設定する。</span>
+D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
+    D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+    D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+    D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+    D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
+
+<span class="hljs-comment">// 作成するルートシグネチャのデータを設定する。</span>
+CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootDesc;
+rootDesc.Init_1_1(
+    <span class="hljs-number">0</span>,          <span class="hljs-comment">// 【注目】リソースに関する引数。リソースなしなので０。</span>
+    <span class="hljs-literal">nullptr</span>,    <span class="hljs-comment">// 【注目】リソースに関する引数。リソースなしなのでnullptrを指定している。</span>
+    <span class="hljs-number">0</span>,          <span class="hljs-comment">// 【注目】リソースに関する引数。リソースなしなので０。 </span>
+    <span class="hljs-literal">nullptr</span>,    <span class="hljs-comment">// 【注目】リソースに関する引数。リソースなしなのでnullptrを指定している。</span>
+    rootSignatureFlags
+);
+<span class="hljs-comment">// 定義されたルートシグネチャを作成するためのメモリを構築する。</span>
+Microsoft::WRL::ComPtr&lt;ID3DBlob&gt; signature;
+Microsoft::WRL::ComPtr&lt;ID3DBlob&gt; error;
+D3DX12SerializeVersionedRootSignature(
+    &amp;rootDesc, 
+    D3D_ROOT_SIGNATURE_VERSION_1, 
+    &amp;signature, 
+    &amp;error
+);
+<span class="hljs-comment">// ルートシグネチャを作成する。</span>
+ComPtr&lt; ID3D12RootSignature&gt; rootSignature;
+hr = d3dDevice-&gt;CreateRootSignature(
+    <span class="hljs-number">0</span>, 
+    signature-&gt;GetBufferPointer(), 
+    signature-&gt;GetBufferSize(), 
+    IID_PPV_ARGS(&amp;rootSignature)
+);
+</div></code></pre>
+<p> CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC::Init_1_1()関数を利用して、作成するルートシグネチャのデータを設定しているのですが、リソースに関する引数には0かnullptrが指定されています。このパラメータの設定に関してはChapter4のリソースバインディングで詳細に説明します。ここではリソースがないので、空のルートシグネチャを作っているんだなという認識で大丈夫です。</p>
+<h2 id="32-%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%83%BC">3.2 シェーダー</h2>
+<p> 続いてシェーダーです。絵を表示するためには、頂点シェーダーとピクセルシェーダーが必要になります。今回はリスト3.2のようなプログラムの頂点シェーダーとピクセルシェーダを使用して、三角形を表示します。</br>
+[リスト3.2]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 頂点シェーダー。</span>
+<span class="hljs-function">float4 <span class="hljs-title">VSMain</span><span class="hljs-params">( float4 position : POSITION )</span> : SV_POSITION
+</span>{
+    <span class="hljs-comment">// 入力された頂点をそのまま出力する。</span>
+    <span class="hljs-keyword">return</span> float4( position.xyz, <span class="hljs-number">1.0f</span>);
+}
+
+<span class="hljs-comment">// ピクセルシェーダー。</span>
+<span class="hljs-function">float4 <span class="hljs-title">PSMain</span><span class="hljs-params">( float4 positon : SV_POSITION )</span> : SV_Target0
+</span>{
+    <span class="hljs-comment">// 赤いカラーを出力する。</span>
+    <span class="hljs-keyword">return</span> float4( <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">1.0f</span> );
+}
+</div></code></pre>
+<p> 定数バッファやテクスチャといったシェーダーリソースを使用しないので、頂点シェーダーは行列を利用した座標変換などは行わずに、入力頂点をそのまま出力しています。ピクセルシェーダーもテクスチャからカラーのサンプリングなどは行わずに、赤いカラーを出力しています。</p>
+<h2 id="33-%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%86%E3%83%BC%E3%83%88">3.3 パイプラインステート</h2>
+<p> 続いて、パイプラインステートです。パイプラインステートとは絵を表示するまでの、GPUの処理であるグラフィックスパイプラインの各種設定です。GPUはドローコールが実行されると次のような処理を実行していきます。</p>
+<ol>
+<li>入力アセンブラ</li>
+<li>頂点シェーダー</li>
+<li>ハルシェーダー(ポリゴン分割のための計画を立てるステージ)</li>
+<li>テッセレーション(頂点を増やして、ポリゴンを分割する)</li>
+<li>ドメインシェーダー(増やした頂点の位置を計算する)</li>
+<li>ジオメトリシェーダー(頂点の増減ステージ)</li>
+<li>ラスタライザ</li>
+<li>ピクセルシェーダー</li>
+<li>出力マネージャー</li>
+</ol>
+<p> このうち3～6のステージは本章では扱わないため詳細な説明は省きますが、3～5のハルシェーダー、テッセレーション、ドメインシェーダーはポリゴンの増減を行うための一塊の処理です。ここまで勉強してきた頂点シェーダーとピクセルシェーダーを利用してモデルを描画する場合の典型的なパイプラインは3～6の処理は省かれており、下記のようになります。</br></p>
+<ol>
+<li>入力アセンブラ</li>
+<li>頂点シェーダー</li>
+<li>ラスタライザ</li>
+<li>ピクセルシェーダー
+6 出力マネージャー</li>
+</ol>
+<p> これらの各種ステージを実行する際の設定がパイプラインステートです。各種ステージの詳細についてはChapter5以降で解説を行います。</p>
+<h2 id="34-%E9%A0%82%E7%82%B9%E3%83%90%E3%83%83%E3%83%95%E3%82%A1">3.4 頂点バッファ</h2>
+<p> 続いて、3Dモデルの頂点の配列である頂点バッファです。頂点には頂点座標だけではなく、法線、接ベクトル、従ベクトル、スキンインデックス、スキンウェイトといった多様なデータが含まれることがあります。そのため、C++では頂点を次のように構造体で表すことが多いです。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Vertex</span>{</span>
+    <span class="hljs-keyword">float</span> position[<span class="hljs-number">3</span>];      <span class="hljs-comment">// 頂点座標</span>
+    <span class="hljs-keyword">float</span> normal[<span class="hljs-number">3</span>];        <span class="hljs-comment">// 法線</span>
+    <span class="hljs-keyword">float</span> tangent[<span class="hljs-number">3</span>];       <span class="hljs-comment">// 接ベクトル</span>
+    <span class="hljs-keyword">float</span> biNormal[<span class="hljs-number">3</span>];      <span class="hljs-comment">// 従法線</span>
+    <span class="hljs-keyword">int</span> skinIndex[<span class="hljs-number">4</span>];       <span class="hljs-comment">// スキンインデックス</span>
+    <span class="hljs-keyword">float</span> skinWeight[<span class="hljs-number">4</span>];    <span class="hljs-comment">// スキンウェイト</span>
+};
+</div></code></pre>
+<p> 頂点バッファは頂点の配列なので、次のようなデータとしてC++では扱われます。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 1000頂点の頂点バッファ。</span>
+Vertex vertexBuffer[<span class="hljs-number">1000</span>];
+</div></code></pre>
+<p> さて、ここまでC++側のコードのみで解説をしてきましたが、頂点バッファのデータを使って絵を表示するのは、GPUになるので頂点バッファのデータをグラフィックメモリ上にコピーする必要があります。次のコードはグラフィックメモリ上に頂点バッファ用のメモリを確保して、コピーしているコードです。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 頂点構造体</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Vertex</span> {</span>
+    <span class="hljs-keyword">float</span> pos[<span class="hljs-number">3</span>];	<span class="hljs-comment">// 頂点座標</span>
+};
+<span class="hljs-comment">// 頂点配列</span>
+Vertex vertexArray[] = {
+    { <span class="hljs-number">-1.0f</span>, <span class="hljs-number">-1.0f</span>, <span class="hljs-number">0.0f</span> },
+    {  <span class="hljs-number">0.0f</span>,  <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span> },
+    {  <span class="hljs-number">1.0f</span>, <span class="hljs-number">-1.0f</span>, <span class="hljs-number">0.0f</span> },
+};
+
+<span class="hljs-comment">// 頂点配列のサイズを変数に記憶する。</span>
+<span class="hljs-keyword">int</span> vertexArraySize = <span class="hljs-keyword">sizeof</span>(vertexArray);
+
+ComPtr&lt;ID3D12Resource&gt; vertexBuffer;
+<span class="hljs-keyword">auto</span> heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+<span class="hljs-keyword">auto</span> vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexArraySize);
+<span class="hljs-comment">// 【注目】CreateCommittedResource()関数を使って、グラフィックメモリ上にメモリを確保する。</span>
+d3dDevice-&gt;CreateCommittedResource(
+    &amp;heapProp,
+    D3D12_HEAP_FLAG_NONE,
+    &amp;vertexBufferDesc,
+    D3D12_RESOURCE_STATE_GENERIC_READ,
+    <span class="hljs-literal">nullptr</span>,
+    IID_PPV_ARGS(&amp;vertexBuffer));
+
+<span class="hljs-comment">// グラフィックメモリにデータをコピーする。</span>
+<span class="hljs-keyword">uint8_t</span>* pData;
+vertexBuffer-&gt;Map(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>, (<span class="hljs-keyword">void</span>**)&amp;pData);
+<span class="hljs-built_in">memcpy</span>(pData, vertexArray, vertexArraySize);
+vertexBuffer-&gt;Unmap(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>);
+</div></code></pre>
+<p> ID3D12Device::CreateCommittedResource()関数を利用して、グラフィックメモリ上にメモリを確保しています。そして、ID3D12Resource::Map()関数を利用して、C++側からグラフィックメモリの内容にアクセスできるようにして、コピーを行っています。</p>
+<h2 id="35-%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9%E3%83%90%E3%83%83%E3%83%95%E3%82%A1">3.5 インデックスバッファ</h2>
+<p> 最後にインデックスバッファです。インデックスバッファはポリゴンを構成する頂点の番号の配列です。C++側では次のようなデータとして扱われます。</br></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">int</span> indexArray[] = { <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span> };
+</div></code></pre>
+<p> インデックスバッファも頂点バッファと同じように、絵を描くために使われるデータなので、GPUからアクセスできるようにグラフィックメモリ上にメモリを確保して、コピーする必要があります。次のコードはインデックスバッファのデータをグラフィックメモリにコピーしているコードです。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">int</span> indexArray[] = { <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span> };
+<span class="hljs-comment">// インデックスの配列のサイズを計算する。</span>
+<span class="hljs-keyword">int</span> indexArraySize = <span class="hljs-keyword">sizeof</span>(indexArray);
+
+ComPtr&lt; ID3D12Resource&gt; indexBuffer;
+<span class="hljs-keyword">auto</span> indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexArraySize);
+<span class="hljs-comment">// CreateCommittedResource()関数を使って、グラフィックメモリ上にメモリを確保する。</span>
+d3dDevice-&gt;CreateCommittedResource(
+    &amp;heapProp,
+    D3D12_HEAP_FLAG_NONE,
+    &amp;indexBufferDesc,
+    D3D12_RESOURCE_STATE_GENERIC_READ,
+    <span class="hljs-literal">nullptr</span>,
+    IID_PPV_ARGS(&amp;indexBuffer));
+
+<span class="hljs-comment">// グラフィックメモリにデータをコピーする。</span>
+pData;
+indexBuffer-&gt;Map(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>, (<span class="hljs-keyword">void</span>**)&amp;pData);
+<span class="hljs-built_in">memcpy</span>(pData, indexArray, indexArraySize);
+indexBuffer-&gt;Unmap(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>);
+</div></code></pre>
+<p> さて、気づかれた方のいるともいますが、グラフィックメモリ上にメモリを確保する関数や、データをコピーする処理が頂点バッファを作成する際に使っているAPIは全く同じになります。</p>
+<h2 id="36-%E3%83%8F%E3%83%B3%E3%82%BA%E3%82%AA%E3%83%B3%E4%B8%89%E8%A7%92%E5%BD%A2%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">3.6 【ハンズオン】三角形を表示する</h2>
+<p> では、三角形を表示するプログラムを実装してきましょう。Sample_03_01/Sample_03_01.slnを立ち上げてください。</p>
+<h3 id="step-1-%E3%83%AB%E3%83%BC%E3%83%88%E3%82%B7%E3%82%B0%E3%83%8D%E3%83%81%E3%83%A3%E3%81%AE%E4%BD%9C%E6%88%90">step-1 ルートシグネチャの作成</h3>
+<p> では、まずはルートシグネチャを作成しましょう。今回はテクスチャや定数バッファといったレジスタに関連付けを行うリソースがないので、空の定数バッファを作成することになります。そのため、リソースバインディングに関する設定は一切行っておらず、ルートシグネチャにアクセスする必要のないシェーダーステージの設定のみ行っています。では、main.cppにリスト3.3のプログラムを入力してください。</br></p>
+<p>[リスト3.3]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-1 ルートシグネチャの作成</span>
+<span class="hljs-comment">// ルートシグネチャにアクセスしなくていいシェーダーステージを設定する。</span>
+D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
+    D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+    D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+    D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+    D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
+
+<span class="hljs-comment">// ルートシグネチャのデータを設定する。</span>
+CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootDesc;
+rootDesc.Init_1_1(
+    <span class="hljs-number">0</span>,
+    <span class="hljs-literal">nullptr</span>,
+    <span class="hljs-number">0</span>,
+    <span class="hljs-literal">nullptr</span>,
+    rootSignatureFlags
+);
+<span class="hljs-comment">// 定義されたルートシグネチャを作成するためのメモリを構築する。</span>
+Microsoft::WRL::ComPtr&lt;ID3DBlob&gt; signature;
+Microsoft::WRL::ComPtr&lt;ID3DBlob&gt; error;
+D3DX12SerializeVersionedRootSignature(
+    &amp;rootDesc, 
+    D3D_ROOT_SIGNATURE_VERSION_1, 
+    &amp;signature, 
+    &amp;error
+);
+<span class="hljs-comment">// ルートシグネチャを作成する。</span>
+ComPtr&lt; ID3D12RootSignature&gt; rootSignature;
+<span class="hljs-keyword">auto</span> hr = d3dDevice-&gt;CreateRootSignature(
+    <span class="hljs-number">0</span>, 
+    signature-&gt;GetBufferPointer(), 
+    signature-&gt;GetBufferSize(), 
+    IID_PPV_ARGS(&amp;rootSignature)
+);
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(
+        <span class="hljs-literal">nullptr</span>,
+        <span class="hljs-string">L"ルートシグネチャの作成に失敗した。"</span>,
+        <span class="hljs-string">L"エラー"</span>,
+        MB_OK
+    );
+}
+</div></code></pre>
+<h3 id="step-2-%E9%A0%82%E7%82%B9%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AE%E3%83%AD%E3%83%BC%E3%83%89">step-2 頂点シェーダーのロード</h3>
+<p> 続いて、頂点シェーダーのロードです。main.cppにリスト3.4のプログラムを入力してください。</br>
+[リスト3.4]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-2 頂点シェーダーのロード</span>
+ComPtr&lt;ID3DBlob&gt; vsBlob;
+ComPtr&lt;ID3DBlob&gt; errorBlob;
+hr = D3DCompileFromFile(
+    <span class="hljs-string">L"Assets/shader/sample.fx"</span>, 
+    <span class="hljs-literal">nullptr</span>, 
+    D3D_COMPILE_STANDARD_FILE_INCLUDE, 
+    <span class="hljs-string">"VSMain"</span>, 
+    <span class="hljs-string">"vs_5_0"</span>, 
+    D3DCOMPILE_DEBUG,
+    <span class="hljs-number">0</span>, 
+    &amp;vsBlob,
+    &amp;errorBlob);
+
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(
+        <span class="hljs-literal">nullptr</span>,
+        <span class="hljs-string">L"頂点シェーダーのロードに失敗した。"</span>,
+        <span class="hljs-string">L"エラー"</span>,
+        MB_OK
+    );
+}
+</div></code></pre>
+<h3 id="step-3-%E3%83%94%E3%82%AF%E3%82%BB%E3%83%AB%E3%82%B7%E3%82%A7%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AE%E3%83%AD%E3%83%BC%E3%83%89">step-3 ピクセルシェーダーのロード</h3>
+<p> 続いて、ピクセルシェーダーのロードです。main.cppにリスト3.5のプログラムを入力してください。</br>
+[リスト3.5]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-3 ピクセルシェーダーのロード</span>
+ComPtr&lt;ID3DBlob&gt; psBlob;
+hr = D3DCompileFromFile(
+    <span class="hljs-string">L"Assets/shader/sample.fx"</span>,
+    <span class="hljs-literal">nullptr</span>,
+    D3D_COMPILE_STANDARD_FILE_INCLUDE,
+    <span class="hljs-string">"PSMain"</span>,
+    <span class="hljs-string">"ps_5_0"</span>,
+    <span class="hljs-number">0</span>,
+    <span class="hljs-number">0</span>,
+    &amp;psBlob,
+    &amp;errorBlob);
+
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(
+        <span class="hljs-literal">nullptr</span>,
+        <span class="hljs-string">L"ピクセルシェーダーのロードに失敗した。"</span>,
+        <span class="hljs-string">L"エラー"</span>,
+        MB_OK
+    );
+}
+</div></code></pre>
+<h3 id="step-4-%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%86%E3%83%BC%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90">step-4 パイプラインステートの作成</h3>
+<p> シェーダーのロードができたので、次はパイプラインステート作成していきます。リスト3.6のプログラムを入力してください。</br>
+[リスト3.6]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-4 パイプラインステートの作成</span>
+<span class="hljs-comment">// まずはパイプラインステートのデータを設定する。</span>
+<span class="hljs-comment">// 入力頂点定義</span>
+D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
+{
+    { <span class="hljs-string">"POSITION"</span>, <span class="hljs-number">0</span>, DXGI_FORMAT_R32G32B32_FLOAT, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, <span class="hljs-number">0</span> },
+};
+D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc = {<span class="hljs-number">0</span>};
+<span class="hljs-comment">// 入力頂点レイアウト</span>
+pipelineStateDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
+<span class="hljs-comment">// ルートシグネチャ</span>
+pipelineStateDesc.pRootSignature = rootSignature.Get();
+<span class="hljs-comment">// 頂点シェーダー。</span>
+pipelineStateDesc.VS = CD3DX12_SHADER_BYTECODE(vsBlob.Get());
+<span class="hljs-comment">// ピクセルシェーダー。</span>
+pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(psBlob.Get());
+<span class="hljs-comment">// ラスタライザステート。</span>
+pipelineStateDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+pipelineStateDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+<span class="hljs-comment">// ブレンドステート。</span>
+pipelineStateDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+<span class="hljs-comment">// デプスステンシルステート。</span>
+pipelineStateDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(D3D12_DEFAULT);
+<span class="hljs-comment">// デフォルトのサンプルマスク</span>
+pipelineStateDesc.SampleMask = UINT_MAX;
+<span class="hljs-comment">// プリミティブトポロジー。</span>
+pipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+<span class="hljs-comment">// レンダリングターゲットのフォーマット。</span>
+pipelineStateDesc.RTVFormats[<span class="hljs-number">0</span>] = DXGI_FORMAT_R8G8B8A8_UNORM;
+<span class="hljs-comment">// レンダリングターゲットの枚数。</span>
+pipelineStateDesc.NumRenderTargets = <span class="hljs-number">1</span>;
+<span class="hljs-comment">// デプスステンシルフォーマット。</span>
+pipelineStateDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+<span class="hljs-comment">// MASSの設定。</span>
+pipelineStateDesc.SampleDesc.Count = <span class="hljs-number">1</span>;
+
+<span class="hljs-comment">//設定されたデータをもとにパイプラインステートを作成する。</span>
+ComPtr&lt; ID3D12PipelineState&gt; pipelineState;
+hr = d3dDevice-&gt;CreateGraphicsPipelineState(
+    &amp;pipelineStateDesc,
+    IID_PPV_ARGS(&amp;pipelineState)
+);
+<span class="hljs-keyword">if</span> (FAILED(hr)) {
+    MessageBox(
+        <span class="hljs-literal">nullptr</span>,
+        <span class="hljs-string">L"パイプラインステートの作成に失敗した。"</span>,
+        <span class="hljs-string">L"エラー"</span>,
+        MB_OK
+    );
+}
+</div></code></pre>
+<h3 id="step-5-%E9%A0%82%E7%82%B9%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%81%AE%E4%BD%9C%E6%88%90">step-5 頂点バッファの作成</h3>
+<p> 続いて頂点バッファを作成しましょう。頂点バッファの作成からデータのコピーは前節で説明したように;ID3D12Device::CreateCommittedResource()関数とID3D12Resource::Map()関数を利用して行います。また、作成されたリソースが頂点バッファであることを示す頂点バッファビューを作成している点も注目してください。これもディスクリプタのようなものだと考えて大丈夫です。では、リスト3.7のプログラムを入力してください。</br>
+[リスト3.7]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-5 頂点バッファの作成。</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Vertex</span> {</span>
+    <span class="hljs-keyword">float</span> pos[<span class="hljs-number">3</span>];	<span class="hljs-comment">// 頂点座標</span>
+};
+<span class="hljs-comment">// 頂点配列</span>
+Vertex vertexArray[] = {
+    { <span class="hljs-number">-1.0f</span>, <span class="hljs-number">-1.0f</span>, <span class="hljs-number">0.0f</span> },
+    {  <span class="hljs-number">0.0f</span>,  <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span> },
+    {  <span class="hljs-number">1.0f</span>, <span class="hljs-number">-1.0f</span>, <span class="hljs-number">0.0f</span> },
+};
+<span class="hljs-comment">// 頂点配列のサイズを変数に記憶する。</span>
+<span class="hljs-keyword">int</span> vertexArraySize = <span class="hljs-keyword">sizeof</span>(vertexArray);
+
+<span class="hljs-comment">// 頂点データを記憶するためのメモリをグラフィックメモリ上に確保する。</span>
+ComPtr&lt; ID3D12Resource&gt; vertexBuffer;
+<span class="hljs-keyword">auto</span> heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+<span class="hljs-keyword">auto</span> vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexArraySize);
+d3dDevice-&gt;CreateCommittedResource(
+    &amp;heapProp,
+    D3D12_HEAP_FLAG_NONE,
+    &amp;vertexBufferDesc,
+    D3D12_RESOURCE_STATE_GENERIC_READ,
+    <span class="hljs-literal">nullptr</span>,
+    IID_PPV_ARGS(&amp;vertexBuffer));
+
+<span class="hljs-comment">// グラフィックメモリにデータをコピーする。</span>
+<span class="hljs-keyword">uint8_t</span>* pData;
+vertexBuffer-&gt;Map(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>, (<span class="hljs-keyword">void</span>**)&amp;pData);
+<span class="hljs-built_in">memcpy</span>(pData, vertexArray, vertexArraySize);
+vertexBuffer-&gt;Unmap(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>);
+
+<span class="hljs-comment">// 頂点バッファビューを作成。ディスクリプタみたいなもの。</span>
+D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
+vertexBufferView.BufferLocation = vertexBuffer-&gt;GetGPUVirtualAddress();
+vertexBufferView.SizeInBytes = vertexArraySize;
+vertexBufferView.StrideInBytes = <span class="hljs-keyword">sizeof</span>(vertexArray[<span class="hljs-number">0</span>]);
+</div></code></pre>
+<h3 id="step-6-%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9%E3%83%90%E3%83%83%E3%83%95%E3%82%A1%E3%81%AE%E4%BD%9C%E6%88%90">step-6 インデックスバッファの作成</h3>
+<p> 続いてインデックスバッファの作成です。インデックスバッファの作成も頂点バッファと同じようにインデックスバッファビューを作成している点も注目してください。では、リスト3.8のプログラムを入力してください。</br>
+[リスト3.8]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-6 インデックスバッファの作成</span>
+<span class="hljs-comment">// インデックスの配列を定義する。</span>
+<span class="hljs-keyword">int</span> indexArray[] = { <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span> };
+<span class="hljs-comment">// インデックスの配列のサイズを計算する。</span>
+<span class="hljs-keyword">int</span> indexArraySize = <span class="hljs-keyword">sizeof</span>(indexArray);
+<span class="hljs-comment">// インデックスデータを記憶するためのメモリをグラフィックメモリ上に確保する。</span>
+ComPtr&lt; ID3D12Resource&gt; indexBuffer;
+<span class="hljs-keyword">auto</span> indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexArraySize);
+d3dDevice-&gt;CreateCommittedResource(
+    &amp;heapProp,
+    D3D12_HEAP_FLAG_NONE,
+    &amp;indexBufferDesc,
+    D3D12_RESOURCE_STATE_GENERIC_READ,
+    <span class="hljs-literal">nullptr</span>,
+    IID_PPV_ARGS(&amp;indexBuffer));
+
+<span class="hljs-comment">// グラフィックメモリにデータをコピーする。</span>
+pData;
+indexBuffer-&gt;Map(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>, (<span class="hljs-keyword">void</span>**)&amp;pData);
+<span class="hljs-built_in">memcpy</span>(pData, indexArray, indexArraySize);
+indexBuffer-&gt;Unmap(<span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>);
+
+<span class="hljs-comment">// インデックスバッファビューを作成。</span>
+D3D12_INDEX_BUFFER_VIEW indexBufferView;
+indexBufferView.BufferLocation = indexBuffer-&gt;GetGPUVirtualAddress();
+indexBufferView.SizeInBytes = indexArraySize;
+indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+</div></code></pre>
+<h3 id="step-7-%E3%83%89%E3%83%AD%E3%83%BC%E3%82%B3%E3%83%BC%E3%83%AB%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">step-7 ドローコールを実行する</h3>
+<p> では、これで最後です。準備がすべて整ったので、ドローコールを実行して三角形を描画しましょう。リスト3.9のプログラムを入力してください。
+[リスト3.9]</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// step-7 ドローコールを実行する</span>
+<span class="hljs-keyword">auto</span> commandList = graphicsEngine.GetCommandList();
+<span class="hljs-comment">// ルートシグネチャを設定。</span>
+commandList-&gt;SetGraphicsRootSignature(rootSignature.Get());
+<span class="hljs-comment">// パイプラインステートを設定。</span>
+commandList-&gt;SetPipelineState(pipelineState.Get());
+<span class="hljs-comment">// 頂点バッファを設定。</span>
+commandList-&gt;IASetVertexBuffers(
+    <span class="hljs-number">0</span>,
+    <span class="hljs-number">1</span>,
+    &amp;vertexBufferView
+);
+<span class="hljs-comment">// インデックスバッファを設定。</span>
+commandList-&gt;IASetIndexBuffer(&amp;indexBufferView);
+
+<span class="hljs-comment">// ドロー。</span>
+commandList-&gt;DrawIndexedInstanced(
+    <span class="hljs-number">3</span>,	<span class="hljs-comment">// インデックスの数</span>
+    <span class="hljs-number">1</span>,	<span class="hljs-comment">// インスタンスの数</span>
+    <span class="hljs-number">0</span>,
+    <span class="hljs-number">0</span>,
+    <span class="hljs-number">0</span>
+);
+</div></code></pre>
+<p> 入力出来たら実行してください。正しく実装できていたら、図3.1のように三角形が表示されます。</br>
+[図3.1]</br>
+<img src="fig/3.1.png" width="400"></br></p>
+<h2 id="37-%E8%A9%95%E4%BE%A1%E3%83%86%E3%82%B9%E3%83%88">3.7 評価テスト</h2>
+<p>下記のURLの評価テストを実施しなさい。</br>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSdnLCHSRxc0bHZIvpr1G8W0Kt2GOu5-EqPayeDwp9H_1_6pbg/viewform?usp=sf_link">評価テスト</a></p>
+<!-- 改ページ. -->
+<div style="page-break-before:always"></div>
+<h1 id="chapter-4-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%83%90%E3%82%A4%E3%83%B3%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0">Chapter 4 リソースバインディング</h1>
+<p> このチャプターではDirectX12におけるリソースバインディングの仕組みについて見てきます。</p>
+<h2 id="41-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%83%90%E3%82%A4%E3%83%B3%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A8%E3%81%AF">4.1 リソースバインディングとは？</h2>
+<p> では、リソースバインディングについて解説をしたいのですが、これを解説するには昨今のGPUのアーキテクチャについて多少の前提知識が必要になるので、それについて勉強していきましょう。
+ 昨今の高品質なゲームを快適に遊ぶためにはグラフィックカードが必須となります。現在のグラフィックカードは主にNVIDIA製のものとAMD製のモノがあります。(IntelのCPUに内蔵されているUHDグラフィックスなどのインテル製のチップもありますが、このチップはあくまでも一般ユーザー向けのチップとなっており、高品質なゲームを遊びたいゲームユーザー向けではないため、割愛します。)
+ これらのグラフィックカードの構成を大雑把に説明すると、演算を行うGPU、テクスチャなどのデータを記憶するVRAMに分類することができます(図4.1)。</br>
+[図4.1 GPUとVRAM～その1]</br>
+<img src="fig/4.1.png" width="400"></br></p>
+<p> さて、グラフィックカードを大雑把に見てみるとGPUとVRAMがあることが分かりました。では、もう少し詳細にGPUのアーキテクチャについて見ていきましょう。図4.2を見てください。</br>
+[図4.2 GPUとVRAM～その2]</br>
+<img src="fig/4.2.png" width="400"></br>
+ GPUの内部には多数のコアと呼ばれる演算基が含まれており、前述したシェーダープログラムの実行はこのコアを使って並列に実行されます。例えば、100万頂点のモデルの描画コールを実行した場合、このコアで分担して100万頂点の頂点シェーダーを実行していくことになります。また、VRAMにはシーンを描画するために必要な各種リソースが乗っています。さて、そろそろリソースバインディングに関する話に近づいているのですが、もう少しだけグラフィックカードのアーキテクチャを詳細に見ていきましょう。図4.3を見てください。</br>
+[図4.3 GPUとVRAM～その3]</br>
+<img src="fig/4.3.png" width="400"></br></p>
+<p> 図4.3ではコアの内部情報を詳細に記載しています。コアの内部には数値演算を行うための演算器と高速なメモリのレジスタがあります。この演算器でシェーダープログラムを実行していると考えてください。ここで重要なのはレジスタです。シェーダープログラムが直接アクセスできるメモリはこのレジスタに乗っているデータになります。さて、ここで少しGPUの動きを考えてみましょう。アプリケーション側からユニティちゃんを描画するためのドローコールが実行されるとGPUはユニティちゃんを描画するためにレンダリングパイプラインを実行していきます。このパイプライン上に頂点処理を行う頂点シェーダーやピクセル処理を行うピクセルシェーダーが実行されていくわけです。この時、頂点シェーダーでは当然VRAMに乗っているユニティちゃんの頂点バッファやインデックスバッファにアクセスする必要があります。ピクセルシェーダーではユニティちゃんのテクスチャにアクセスる必要があります。しかし、VRAMにはその他のオブジェクトの頂点バッファやテクスチャといったグラフィックリソースもVRAMに乗っているのです。では、GPUはどのようにして多数あるVRAM上のリソースから、Unityちゃんのグラフィックリソースを選べばいいのでしょうか。答えを言うと、GPUが自動的にユニティちゃんのグラフィックリソースを選ぶということはできません。プログラマが明示的にプログラムを記載して、ユニティちゃんのグラフィックリソースを指定する必要があります。もう少し具体的に言うと、GPUの各種レジスタに使用するグラフィックリソースのアドレスを設定するのです(図4.4)。</br>
+[図4.4 GPUとVRAM～その4]</br>
+<img src="fig/4.4.png" width="400"></br>
+ イメージとしてはC++のポインタをイメージしてみてください。レジスタに使用するリソースのアドレスを設定して、そのアドレスを使ってリソースをロードしていきます。そしてこのレジスタと使用するリソースを関連付けすることをリソースバインディングといいます。DirectX12を利用して絵を描画するためには、後述するディスクリプタ、ディスクリプタヒープ、そしてルートシグネチャを活用して、描画したい絵に必要なリソースとレジスタの関連付けを行う必要があります。</p>
+<h2 id="42-%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%BF">4.2 ディスクリプタ</h2>
+<p> まずはディスクリプタから見ていきます。ディスクリプタとはグラフィックメモリ内のリソースの情報が記述されているデータです。リソースというのは、単なるメモリの塊となります。ディスクリプタはそのメモリの塊がなんなか、テクスチャなのか定数バッファなのかはたまたストラクチャードバッファなのか、といった情報が記述されています(図4.5)。</br>
+[図4.5 ディスクリプタ]</br>
+<img src="fig/4.5.png" width="400"></br>
+ DirectX12のAPIを使ったリソースバインディングでは各種レジスタと、このディスクリプタを関連付けしていくことになります。</p>
+<h2 id="43-%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%BF%E3%83%92%E3%83%BC%E3%83%97">4.3 ディスクリプタヒープ</h2>
+<p> 続いてディスクリプタヒープです。これはディスクリプタを記憶するためのメモリ領域です。ディスクリプタの配列のようなものだと考えてもらって買いません。DirectX12ではディスクリプタを作成する前に、ディスクリプタヒープを確保して、そこにリソース情報(ディスクリプタ)を記憶していきます(図4.6)。</br>
+[図4.6 ディスクリプタヒープ]</br>
+<img src="fig/4.6.png" width="400"></br>
+ ディスクリプタヒープは単にディスクリプタを記憶するためのメモリ領域です。その領域にリソースの情報を記述していくことになります。下記のコードはディスクリプタヒープとディスクリプタの関係を示したC++の疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Descriptor</span>{</span>
+    <span class="hljs-keyword">void</span>* addr; <span class="hljs-comment">// リソースのアドレス。</span>
+    <span class="hljs-keyword">int</span> type;   <span class="hljs-comment">// リソースの種類。</span>
+}
+<span class="hljs-comment">// ディスクリプタヒープを100バイト確保。</span>
+<span class="hljs-keyword">void</span>* descriptorHeap = <span class="hljs-built_in">malloc</span>( <span class="hljs-number">100</span> );
+
+Descriptor* descriptor = (Descriptor*)descriptorHeap;
+<span class="hljs-comment">// テクスチャの情報を書き込む。</span>
+descriptor[<span class="hljs-number">0</span>].addr = <span class="hljs-number">0x100</span>;     <span class="hljs-comment">// アドレス。</span>
+descriptor[<span class="hljs-number">0</span>].type = <span class="hljs-number">1</span>;         <span class="hljs-comment">// 1はテクスチャを表している。</span>
+<span class="hljs-comment">// 次は定数バッファ。</span>
+descriptor[<span class="hljs-number">1</span>].addr = <span class="hljs-number">0x200</span>;     <span class="hljs-comment">// アドレス</span>
+descriptor[<span class="hljs-number">1</span>].type = <span class="hljs-number">2</span>;         <span class="hljs-comment">// 2は定数バッファを表している。</span>
+</div></code></pre>
+<h2 id="44-%E3%83%AB%E3%83%BC%E3%83%88%E3%82%B7%E3%82%B0%E3%83%8D%E3%83%81%E3%83%A3%E3%81%A8%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%BF%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB">4.4 ルートシグネチャとディスクリプタテーブル</h2>
+<p> 最後にルートシグネチャとディスクリプタテーブルです。正確にはここの話はディスクリプタテーブルに関する説明なのですが、ディスクリプタテーブルの情報はルートシグネチャの内部のデータとなるので、ルートシグネチャとディスクリプタテーブルという節タイトルになっています。ディスクリプタテーブルはレジスタ番号からディスクリプタのアドレスに変換するためのテーブルです。</br>
+ 4.3節までディスクリプタとディスクリプタヒープについて話をしてきましたが、結局ディスクリプタとレジスタをどのように関連付けるのかは分かりませんでした。この関連付けを行うのがディスクリプタテーブルです。</br>
+ ディスクリプタテーブルの話に入る前に、そもそもテーブルというのが何なのか解説します。</br>テーブルというのは、何かのデータ(番号など)を使って、別のデータを取り出すためのデータ構造のことを指します。例えば、学生の出席番号を使って、学生の年齢を取得するテーブルについて考えてみましょう。このような場合C++であれば１次元配列が利用されます。次の疑似コードを見てください。</br></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 年齢は出席番号の順番で格納されている。</span>
+<span class="hljs-keyword">int</span> studentAgeTable[<span class="hljs-number">5</span>] = { <span class="hljs-number">20</span>, <span class="hljs-number">19</span>, <span class="hljs-number">21</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span> };
+<span class="hljs-comment">// 出席番号4番の学生の年齢を表示。配列の添え字は0から始まるので、出席番号-1を添え字とする。</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"出席番号4番の学生の年齢 = %d"</span>, studentAgeTable[<span class="hljs-number">3</span>]);
+<span class="hljs-comment">// 出席番号2番の学生の年齢を表示。配列の添え字は0から始まるので、出席番号-1を添え字とする。</span>
+<span class="hljs-built_in">printf</span>(<span class="hljs-string">"出席番号2番の学生の年齢 = %d"</span>, studentAgeTable[<span class="hljs-number">1</span>]);
+</div></code></pre>
+<p> いかがでしょうか。それほど難しい話ではなかったと思います。ディスクリプタテーブルもこれと全く同じです。ディスクリプタテーブルはレジスタ番号を使って、ディスクリプタのアドレスを取得します。下記のコードはディスクリプタテーブルを使って、レジスタとディスクリプタを関連付ける疑似コードです。</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">void</span>* descriptorTable[<span class="hljs-number">5</span>] = { <span class="hljs-number">0x1FFF</span>, <span class="hljs-number">0x2FFFF</span>, <span class="hljs-number">0x0123</span>, <span class="hljs-number">0x3A5D</span>, <span class="hljs-number">0xB29F</span> };
+<span class="hljs-comment">// 0番のレジスタに割り当てられているディスクリプタのアドレスを取得。</span>
+<span class="hljs-keyword">void</span>* desciptorAddr_0 = descriptorTable[<span class="hljs-number">0</span>];
+<span class="hljs-comment">// 2番のレジスタに割り当てられているディスクリプタのアドレスを取得。</span>
+<span class="hljs-keyword">void</span>* desciptorAddr_2 = descriptorTable[<span class="hljs-number">2</span>];
+</div></code></pre>
+<p>図4.7にDirectX12のリソースバインディングのイメージ図を示します。</br>
+[図4.7 リースバインディングのイメージ図]</br>
+<img src="fig/4.7.png" width="400"></br></p>
+<h2 id="45-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%83%90%E3%82%A4%E3%83%B3%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%AE%E6%B5%81%E3%82%8C">4.5 リソースバインディングの流れ</h2>
+<p> この節ではリソースバインディングの流れを疑似コードを交えて解説します。まずは大雑把な流れを押さえておきましょう。まずは初期化の流れです。</p>
+<ol>
+<li>ディスクリプタヒープを確保</li>
+<li>ディスクリプタヒープにディスクリプタの情報を書き込んでいく。</li>
+<li>ディスクリプタテーブルを作成(ルートシグネチャを作成)
+ 続いて、毎フレームのドローコールです。</li>
+<li>ディスクリプタヒープを設定。</li>
+<li>ディスクリプタテーブルを設定。</li>
+<li>ドローコールを実行。</li>
+</ol>
+<p> では、まずは初期化の疑似コードを見ていきましょう。なお、今回はディスクリプタヒープに複数のオブジェクトのリソースが登録されているとします。</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Descriptor</span>{</span>
+    <span class="hljs-keyword">void</span>* addr;     <span class="hljs-comment">// リソースのアドレス。</span>
+    <span class="hljs-keyword">int</span> type;       <span class="hljs-comment">// リソースの種類。</span>
+};
+
+<span class="hljs-comment">// ディスクリプタヒープ。</span>
+Descriptor* g_descriptorHeap = <span class="hljs-literal">nullptr</span>;
+<span class="hljs-comment">// モンスターのデスクリプタテーブル。</span>
+Descriptor* g_monsterDescriptorTbl[<span class="hljs-number">10</span>];
+<span class="hljs-comment">// 地面のディスクリプタテーブル。</span>
+Descriptor* g_groundDescriptorTbl[<span class="hljs-number">10</span>];
+
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAX_DESCRIPTOR = <span class="hljs-number">1000</span>;    <span class="hljs-comment">// ディスクリプタの最大数。</span>
+    <span class="hljs-comment">// ディスクリプタヒープを確保する。</span>
+    g_descriptorHeap = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Descriptor) * <span class="hljs-number">1000</span>);
+    <span class="hljs-comment">// 怪物のモデルを描画するためのリソースをディスクリプタを書き込んでいく。</span>
+    <span class="hljs-comment">// アルベドマップ</span>
+    g_descriptorHeap[<span class="hljs-number">0</span>].addr = <span class="hljs-number">0x1000</span>;
+    g_descriptorHeap[<span class="hljs-number">0</span>].type = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// 法線マップ</span>
+    g_descriptorHeap[<span class="hljs-number">1</span>].addr = <span class="hljs-number">0x2000</span>;
+    g_descriptorHeap[<span class="hljs-number">1</span>].type = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// メタリックスムースマップ</span>
+    g_descriptorHeap[<span class="hljs-number">2</span>].addr = <span class="hljs-number">0x2400</span>;
+    g_descriptorHeap[<span class="hljs-number">2</span>].type = <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">// 続いて地面のモデルを描画するためのリソースをディスクリプタに書き込んでいく。</span>
+    <span class="hljs-comment">// アルベドマップ</span>
+    g_descriptorHeap[<span class="hljs-number">3</span>].addr = <span class="hljs-number">0x3000</span>;
+    g_descriptorHeap[<span class="hljs-number">3</span>].type = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// 法線マップ</span>
+    g_descriptorHeap[<span class="hljs-number">4</span>].addr = <span class="hljs-number">0x4000</span>;
+    g_descriptorHeap[<span class="hljs-number">4</span>].type = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// スペキュラマップ</span>
+    g_descriptorHeap[<span class="hljs-number">5</span>].addr = <span class="hljs-number">0x4400</span>;
+    g_descriptorHeap[<span class="hljs-number">5</span>].type = <span class="hljs-number">1</span>;
+    
+    <span class="hljs-comment">// 続いてモンスターのディスクリプタテーブルを初期化する。</span>
+    <span class="hljs-comment">// 0番レジスタはアルベドテクスチャ</span>
+    g_monsterDescriptorTbl[<span class="hljs-number">0</span>] = &amp;g_descriptorHeap[<span class="hljs-number">0</span>];
+    <span class="hljs-comment">// 1番レジスタは法線マップ</span>
+    g_monsterDescriptorTbl[<span class="hljs-number">1</span>] = &amp;g_descriptorHeap[<span class="hljs-number">1</span>];
+    <span class="hljs-comment">// 2番レジスタはメタリックスムースマップ</span>
+    g_monsterDescriptorTbl[<span class="hljs-number">2</span>] = &amp;g_descriptorHeap[<span class="hljs-number">2</span>];
+
+    <span class="hljs-comment">// 続いて地面のディスクリプタテーブルを初期化する。</span>
+    <span class="hljs-comment">// 0番レジスタはアルベドテクスチャ</span>
+    g_groundDescriptorTbl[<span class="hljs-number">0</span>] = &amp;g_descriptorHeap[<span class="hljs-number">3</span>];
+    <span class="hljs-comment">// 1番レジスタは法線マップ</span>
+    g_groundDescriptorTbl[<span class="hljs-number">1</span>] = &amp;g_descriptorHeap[<span class="hljs-number">4</span>];
+    <span class="hljs-comment">// 2番レジスタはメタリックスムースマップ</span>
+    g_groundDescriptorTbl[<span class="hljs-number">2</span>] = &amp;g_descriptorHeap[<span class="hljs-number">5</span>];
+}
+</div></code></pre>
+<p> 今回の疑似コードでは、大きなディスクリプタヒープを確保して、そこに各種モデルのディスクリプタを登録していっています。しかし、必ずしもディスクリプタヒープは１つである必要はなく、複数のディスクリプタヒープを利用することも可能です。例えば、本校のエンジンのモデル表示処理では、モデルごとに１つのディスクリプタヒープが用意されています。このディスクリプタヒープにモデルの各マテリアルに設定されているテクスチャのディスクリプタを登録していますいます。では、続いて、毎フレームのドローコールの疑似コードを見ていきましょう。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Render</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// ディスクリプタヒープを設定。</span>
+    g_renderContext.SetDescriptorHeap(g_descriptorHeap);
+    <span class="hljs-comment">// モンスターを描画</span>
+        ・
+        ・  他にも頂点バッファやインデックスバッファなど色々設定してるが省略。
+        ・
+    <span class="hljs-comment">// モンスターのディスクリプタテーブルを設定。</span>
+    g_renderContext.SetDescriptorTable(g_monsterDescriptorTbl);
+    <span class="hljs-comment">// ドロー。</span>
+    g_renderContext.Draw();
+
+    <span class="hljs-comment">// 地面を描画</span>
+        ・
+        ・  他にも頂点バッファやインデックスバッファなど色々設定してるが省略。
+        ・
+    <span class="hljs-comment">// 地面のディスクリプタテーブルを設定。</span>
+    g_renderContext.SetDescriptorTable(g_groundDescriptorTbl);
+    <span class="hljs-comment">// ドロー。</span>
+    g_renderContext.Draw();
+}
+</div></code></pre>
+<p> 毎フレームのドローコールでは、描画に使用するディスクリプタヒープとディスクリプタテーブルが指定されています。この疑似コードでは、モンスターと地面で共通のディスクリプタヒープを使用していたので、ディスクリプタテーブルのみ切り替える実装になっています。</p>
+<h2 id="46-%E3%83%8F%E3%83%B3%E3%82%BA%E3%82%AA%E3%83%B3%E4%B8%89%E8%A7%92%E5%BD%A2%E3%83%9D%E3%83%AA%E3%82%B4%E3%83%B3%E3%82%92%E5%8B%95%E3%81%8B%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">4.6 【ハンズオン】三角形ポリゴンを動かしてみよう。</h2>
+<p> では、定数バッファを利用して、移動させるデータをGPUに送って、三角形ポリゴンを動かすプログラムを実装してみましょう。</p>
+<h3 id="step-1-%E3%83%AB%E3%83%BC%E3%83%88%E3%82%B7%E3%82%B0%E3%83%8D%E3%83%81%E3%83%A3%E3%81%AE%E4%BD%9C%E6%88%90">step-1 ルートシグネチャの作成。</h3>
+<h3 id="step-2">step-2</h3>
+<h2 id="25">2.5</h2>
+<h1 id="chapter2-%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%86%E3%83%BC%E3%83%88">Chapter2 パイプラインステート</h1>
+<h1 id="chapter3-z%E3%83%86%E3%82%B9%E3%83%88">Chapter3 Zテスト</h1>
+<h1 id="chapter4-%E3%82%A2%E3%83%AB%E3%83%95%E3%82%A1%E3%83%86%E3%82%B9%E3%83%88">Chapter4 アルファテスト</h1>
+<h1 id="chapter5-%E3%82%AB%E3%83%AA%E3%83%B3%E3%82%B0">Chapter5 カリング</h1>
+
+</body>
+</html>
