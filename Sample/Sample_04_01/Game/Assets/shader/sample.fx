@@ -1,14 +1,30 @@
+// 
+struct VertexShaderInput{
+    float4 position : POSITION;
+    float2 uv       : TEXCOORD0;
+};
+struct VertexShaderOutput{
+    float4 position : SV_Position;
+    float2 uv       : TEXCOORD0;
+};
+
+
+Texture2D<float4>   g_tex       : register(t0);		//アルベドマップ
+sampler             g_sampler   : register(s0);	    //サンプラステート。
 
 // 頂点シェーダー。
-float4 VSMain( float4 position : POSITION ) : SV_POSITION
+VertexShaderOutput VSMain( VertexShaderInput vsIn ) 
 {
-    // 入力された頂点をそのまま出力する。
-    return float4( position.xyz, 1.0f);
+    VertexShaderOutput vsOut;
+    vsOut.position = vsIn.position;
+    vsOut.uv = vsIn.uv;
+    return vsOut;
 }
 
 // ピクセルシェーダー。
-float4 PSMain( float4 positon : SV_POSITION ) : SV_Target0
+float4 PSMain( VertexShaderOutput vsOut ) : SV_Target0
 {
     // 赤いカラーを出力する。
-    return float4( 1.0f, 0.0f, 0.0f, 1.0f );
+    return g_tex.Sample(g_sampler, vsOut.uv);
+    
 }
