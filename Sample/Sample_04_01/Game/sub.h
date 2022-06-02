@@ -50,3 +50,25 @@ void WaitUntiFinishedGPUProcessing(
 	UINT& fenceValue,
 	HANDLE fenceEventHandle
 );
+
+void LoadVertexShader(ComPtr<ID3DBlob>& vsBlob);
+void LoadPixelShader(ComPtr<ID3DBlob>& psBlob);
+void CreatePipelineState(
+	ComPtr< ID3D12PipelineState>& pipelineState,
+	ComPtr<ID3D12Device5> d3dDevice,
+	ComPtr< ID3D12RootSignature> rootSignature,
+	ComPtr< ID3DBlob>& vsBlob,
+	ComPtr< ID3DBlob>& psBlob
+);
+
+void CreateVertexBuffer(
+	ComPtr< ID3D12Resource>& vertexBuffer,
+	D3D12_VERTEX_BUFFER_VIEW& vertexBufferView,
+	ComPtr<ID3D12Device5> d3dDevice
+);
+
+void CreateIndexBuffer(
+	ComPtr<ID3D12Resource>& indexBuffer,
+	D3D12_INDEX_BUFFER_VIEW& indexBufferView,
+	ComPtr<ID3D12Device5> d3dDevice
+);

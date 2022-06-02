@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "sub.h"
+#include "d3dcompiler.h"
+#include "d3dx12.h"
 
 using namespace Microsoft::WRL;
 
@@ -199,4 +201,192 @@ void WaitUntiFinishedGPUProcessing(
 	WaitForSingleObject(fenceEventHandle, INFINITE);
 	// フェンスバリューをインクリメント。
 	fenceValue++;
+}
+void LoadVertexShader(ComPtr<ID3DBlob>& vsBlob)
+{
+	ComPtr<ID3DBlob> errorBlob;
+	HRESULT hr = D3DCompileFromFile(
+		L"Assets/shader/sample.fx",
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		"VSMain",
+		"vs_5_0",
+		D3DCOMPILE_DEBUG,
+		0,
+		&vsBlob,
+		&errorBlob);
+
+	if (FAILED(hr)) {
+		MessageBox(
+			nullptr,
+			L"頂点シェーダーのロードに失敗した。",
+			L"エラー",
+			MB_OK
+		);
+	}
+}
+void LoadPixelShader(ComPtr<ID3DBlob>& psBlob)
+{
+	ComPtr<ID3DBlob> errorBlob;
+	auto hr = D3DCompileFromFile(
+		L"Assets/shader/sample.fx",
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		"PSMain",
+		"ps_5_0",
+		0,
+		0,
+		&psBlob,
+		&errorBlob);
+
+	if (FAILED(hr)) {
+		MessageBox(
+			nullptr,
+			L"ピクセルシェーダーのロードに失敗した。",
+			L"エラー",
+			MB_OK
+		);
+	}
+}
+void CreatePipelineState(
+	ComPtr< ID3D12PipelineState>& pipelineState,
+	ComPtr<ID3D12Device5> d3dDevice,
+	ComPtr< ID3D12RootSignature> rootSignature,
+	ComPtr< ID3DBlob>& vsBlob,
+	ComPtr< ID3DBlob>& psBlob
+)
+{
+	// まずはパイプラインステートのデータを設定する。
+	// 入力頂点定義
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	};
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc = { 0 };
+	// 入力頂点レイアウト
+	pipelineStateDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
+	// ルートシグネチャ
+	pipelineStateDesc.pRootSignature = rootSignature.Get();
+	// 頂点シェーダー。
+	pipelineStateDesc.VS = CD3DX12_SHADER_BYTECODE(vsBlob.Get());
+	// ピクセルシェーダー。
+	pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(psBlob.Get());
+	// ラスタライザステート。
+	pipelineStateDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	pipelineStateDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	// ブレンドステート。
+	pipelineStateDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	// デプスステンシルステート。
+	pipelineStateDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC1(D3D12_DEFAULT);
+	// デフォルトのサンプルマスク
+	pipelineStateDesc.SampleMask = UINT_MAX;
+	// プリミティブトポロジー。
+	pipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// レンダリングターゲットのフォーマット。
+	pipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	// レンダリングターゲットの枚数。
+	pipelineStateDesc.NumRenderTargets = 1;
+	// デプスステンシルフォーマット。
+	pipelineStateDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+	// MASSの設定。
+	pipelineStateDesc.SampleDesc.Count = 1;
+
+	//設定されたデータをもとにパイプラインステートを作成する。
+	auto hr = d3dDevice->CreateGraphicsPipelineState(
+		&pipelineStateDesc,
+		IID_PPV_ARGS(&pipelineState)
+	);
+	if (FAILED(hr)) {
+		MessageBox(
+			nullptr,
+			L"パイプラインステートの作成に失敗した。",
+			L"エラー",
+			MB_OK
+		);
+	}
+}
+void CreateVertexBuffer(
+	ComPtr< ID3D12Resource>& vertexBuffer,
+	D3D12_VERTEX_BUFFER_VIEW& vertexBufferView,
+	ComPtr<ID3D12Device5> d3dDevice
+)
+{
+	struct Vertex {
+		float pos[3];	// 頂点座標
+		float uv[2];	// UV座標
+	};
+	// 頂点配列
+	Vertex vertexArray[] = {
+		{
+			{ -0.3f, -0.3f, 0.0f },
+			{ 0.0f, 0.0f }
+		},
+		{
+			{ 0.0f,  0.3f, 0.0f },
+			{ 0.0f, 1.0f }
+		},
+		{
+			{ 0.3f, -0.3f, 0.0f },
+			{ 1.0f, 1.0f }
+		}
+	};
+	// 頂点配列のサイズを変数に記憶する。
+	int vertexArraySize = sizeof(vertexArray);
+
+	// 頂点データを記憶するためのメモリをグラフィックメモリ上に確保する。
+
+	auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexArraySize);
+	d3dDevice->CreateCommittedResource(
+		&heapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&vertexBufferDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertexBuffer));
+
+	// グラフィックメモリにデータをコピーする。
+	uint8_t* pData;
+	vertexBuffer->Map(0, nullptr, (void**)&pData);
+	memcpy(pData, vertexArray, vertexArraySize);
+	vertexBuffer->Unmap(0, nullptr);
+
+	// 頂点バッファビューを作成。ディスクリプタみたいなもの。
+	vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = vertexArraySize;
+	vertexBufferView.StrideInBytes = sizeof(vertexArray[0]);
+}
+void CreateIndexBuffer(
+	ComPtr<ID3D12Resource>& indexBuffer,
+	D3D12_INDEX_BUFFER_VIEW& indexBufferView,
+	ComPtr<ID3D12Device5> d3dDevice
+)
+{
+	// インデックスバッファの作成
+	// インデックスの配列を定義する。
+	int indexArray[] = { 0, 1, 2 };
+	// インデックスの配列のサイズを計算する。
+	int indexArraySize = sizeof(indexArray);
+	// インデックスデータを記憶するためのメモリをグラフィックメモリ上に確保する。
+	auto indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexArraySize);
+	auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	d3dDevice->CreateCommittedResource(
+		&heapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&indexBufferDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuffer));
+
+	// グラフィックメモリにデータをコピーする。
+	uint8_t* pData;
+	indexBuffer->Map(0, nullptr, (void**)&pData);
+	memcpy(pData, indexArray, indexArraySize);
+	indexBuffer->Unmap(0, nullptr);
+
+	// インデックスバッファビューを作成。
+	indexBufferView.BufferLocation = indexBuffer->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = indexArraySize;
+	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
 }

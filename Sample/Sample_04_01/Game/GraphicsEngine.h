@@ -20,6 +20,10 @@ public:
 	{
 		return m_commandList;
 	}
+	ComPtr<ID3D12CommandQueue> GetCommandQueue()
+	{
+		return m_commandQueue;
+	}
 private:
 	ComPtr<ID3D12Device5> m_d3dDevice;									// D3Dデバイス。
 	ComPtr< ID3D12CommandAllocator > m_commandAllocator;				// コマンドアロケータ。
